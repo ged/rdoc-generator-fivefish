@@ -1,0 +1,8 @@
+^.yardoc/
+^doc/
+^tags$
+^manual/output/
+^coverage/
+^coverage.info$
+^ChangeLog$
+^pkg/
