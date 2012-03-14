@@ -12,9 +12,8 @@
 			<?call klass.description ?>
 		</section>
 
-		<?for section, constants, attributes in klass.each_section ?>
-		  <!-- <?constants = constants.select { |const| const.display? } ?>
-		  <?attributes = attributes.select { |attr| attr.display? } ?> -->
+		<?for section, constants, attrs in klass.each_section ?>
+		<!-- Section: [?pp section ?] -->
 		<section id="<?call section.aref ?>" class="documentation-section">
 			<?if section.title ?>
 			<header>
@@ -50,14 +49,14 @@
 			</section>
 			<?end ?>
 
-			<?if attributes.any?{|a| a.display? } ?>
+			<?if attrs.any?{|a| a.display? } ?>
 			<!-- Attributes -->
 			<section class="attributes-list">
 				<header>
 					<h3>Attributes</h3>
 				</header>
 				<dl>
-				<?for attrib in attributes.select {|a| a.display? } ?>
+				<?for attrib in attrs.select {|a| a.display? } ?>
 					<dt id="[?call attrib.aref ?]"><?call attrib.name ?><span
 						class="attribute-access-type">[<?call attrib.rw ?>]</span></dt>
 					<?if attrib.comment ?>
@@ -71,79 +70,81 @@
 			<?end if ?>
 
 			<!-- Methods -->
-			<?for type, visibilities in klass.methods_by_type( section ) ?>
-			<?for visbility, methods in visibilities ?>
+			<?for scope, visibilities in klass.methods_by_type( section ) ?>
+				<!-- Scope: [?pp scope ?] -->
+			<?for visibility, methodlist in visibilities ?>
 
-			<?unless methods.empty? ?>
-			<section id="<?attr visibility ?>-<?attr type ?>-<?call
+			<?unless methodlist.empty? ?>
+			<section id="<?attr visibility ?>-<?attr scope ?>-<?call
 				section.aref ?>-method-details" class="method-list">
 				<header>
-					<h3><?call visibility.to_s.capitalize ?> <?call type.capitalize ?> Methods</h3>
+					<h3><?call visibility.to_s.capitalize ?> <?call scope.capitalize ?> Methods</h3>
 				</header>
 
-				<?for method in methods ?>
-				<div id="<?call method.aref ?>" class="method-detail <?call method.is_alias_for ? "method-alias" : '' ?>">
-        <?if method.call_seq then ?>
-        <?  method.call_seq.strip.split("\n").each_with_index do |call_seq, i| ?>
-        <div class="method-heading">
-          <span class="method-callseq">
-            <?call h(call_seq.strip.
-                  gsub( /^\w+\./m, '')).
-                  gsub(/(.*)[-=]&gt;/, '\1&rarr;') ?>
-          </span>
-          <?if i == 0 then ?>
-          <span class="method-click-advice">click to toggle source</span>
-          <?end ?>
-        </div>
-        <?  end ?>
-        <?else ?>
-        <div class="method-heading">
-          <span class="method-name"><?call h method.name ?></span><span
-            class="method-args"><?call method.param_seq ?></span>
-          <span class="method-click-advice">click to toggle source</span>
-        </div>
-        <?end ?>
+				<?for method in methodlist ?>
+				<div id="<?call method.aref ?>" class="method-detail[?if method.is_alias_for
+					?] method-alias[?end if ?]">
 
-        <div class="method-description">
-          <?if method.comment then ?>
-          <?call method.description.strip ?>
-          <?else ?>
-          <p class="missing-docs">(Not documented)
-          <?end ?>
+					<header>
+						<span class="method-click-advice">click to toggle source</span>
+					<?if method.call_seq ?>
+						<?for call_seq, i in method.call_seq.strip.split("\n") ?>
+						<span class="method-callseq">
+							<?escape call_seq.strip.gsub( /^\w+\./m, '').gsub(/[-=]>/, '&rarr;') ?>
+						</span>
+						<?end for ?>
+					<?else ?>
+						<span class="method-name"><?escape method.name ?></span>
+						<span class="method-args"><?escape method.param_seq ?></span>
+					<?end if ?>
+					</header>
 
-          <?if method.token_stream then ?>
-          <div class="method-source-code" id="<?call method.html_name ?>-source">
-            <pre><?call method.markup_code ?></pre>
-          </div><!-- <?call method.html_name ?>-source -->
-          <?end ?>
-        </div>
+					<div class="method-description">
+					<?if method.comment ?>
+						<?call method.description.strip ?>
+					<?else ?>
+						<p class="missing-docs">(Not documented)</p>
+					<?end ?>
 
-        <?unless method.aliases.empty? then ?>
-        <div class="aliases">
-          Also aliased as: <?call method.aliases.map do |aka|
-            if aka.parent then # HACK lib/rexml/encodings
-              %{<a href="#{klass.aref_to aka.path}">#{h aka.name}</a>}
-            else
-              h aka.name
-            end
-          end.join ", " ?>
-        </div>
-        <?end ?>
+					<?if method.token_stream ?>
+						<div class="method-source-code" id="<?call method.html_name ?>-source">
+							<pre><?call method.markup_code ?></pre>
+						</div>
+					<?end ?>
+					</div>
 
-        <?if method.is_alias_for then ?>
-        <div class="aliases">
-          Alias for: <a href="<?call klass.aref_to method.is_alias_for.path ?>"><?call h method.is_alias_for.name ?></a>
-        </div>
-        <?end ?>
-      </div><!-- <?call method.html_name ?>-method -->
+					<?unless method.aliases.empty? ?>
+					<div class="aliases">
+						Also aliased as:
+						<?for aka in method.aliases ?>
+							<?if aka.parent ?>
+							<a href="[?call klass.aref_to(aka.path) ?]"><?escape aka.name ?></a>
+							<?else ?>
+							<?escape aka.name ?>
+							<?end if ?><?unless aka == method.aliases.last ?>, <?end unless ?>
+						<?end for ?>
+					</div>
+					<?end ?>
 
-    <?end ?>
-    </section><!-- <?call visibility ?>-<?call type ?>-method-details -->
-  <?end
-     end ?>
-  </section><!-- <?call section.aref ?> -->
-<?end ?>
+					<?if method.is_alias_for ?>
+					<div class="aliases">
+						Alias for: <a href="[?call klass.aref_to( method.is_alias_for.path ) 
+							?]"><?escape method.is_alias_for.name ?></a>
+					</div>
+					<?end if ?>
+				</div>
+				<?end for ?>
+
+			</section>
+			<?end unless ?>
+
+			<?end for ?>
+			<?end for ?>
+
+		</section>
+		<?end for ?>
 
 <pre>
 <?pp klass ?>
 </pre>
+

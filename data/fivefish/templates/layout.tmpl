@@ -52,7 +52,7 @@
 				<div class="nav-collapse">
 					<ul class="nav">
 				<?for file in files.select {|f| f.text? }.sort ?>
-						<li><a href="[?call file.path ?]"><?escape file.page_name ?></a></li>
+						<li><a href="[?attr rel_prefix ?]/[?call file.path ?]"><?escape file.page_name ?></a></li>
 				<?end for ?>
 					</ul>
 				</div><!--/.nav-collapse -->

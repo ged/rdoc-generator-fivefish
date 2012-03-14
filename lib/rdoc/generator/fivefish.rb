@@ -250,7 +250,7 @@ class RDoc::Generator::Fivefish
 			out_file = self.output_dir + klass.path
 			out_file.dirname.mkpath
 
-			binding.pry
+			# binding.pry
 			template.klass = klass
 
 			layout.contents = template
