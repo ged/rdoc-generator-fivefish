@@ -27,9 +27,9 @@
 	<link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
 	<link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
 
-	<script src="[?attr rel_prefix ?]/js/jquery-1.7.1.js" type="text/javascript"
+	<script src="[?attr rel_prefix ?]/js/jquery-1.7.1.min.js" type="text/javascript"
 		defer="defer" charset="utf-8"></script>
-	<script src="[?attr rel_prefix ?]/js/bootstrap.js" type="text/javascript"
+	<script src="[?attr rel_prefix ?]/js/bootstrap.min.js" type="text/javascript"
 		defer="defer" charset="utf-8"></script>
 	<script src="[?attr rel_prefix ?]/js/fivefish.js" type="text/javascript"
 		defer="defer" charset="utf-8" onload="initFivefish()"></script>
@@ -51,6 +51,20 @@
 
 				<div class="nav-collapse">
 					<ul class="nav">
+						<li class="dropdown">
+							<a href="#"
+								class="dropdown-toggle"
+								data-toggle="dropdown">
+								Classes
+								<b class="caret"></b>
+							</a>
+							<ul class="dropdown-menu">
+							<?for index_class in modsort.select( &:documented? ) ?>
+								<li><a href="[?attr rel_prefix ?]/[?call index_class.path ?]"><?call 
+									index_class.full_name ?></a></li>
+							<?end for ?>
+							</ul>
+						</li>
 				<?for file in files.select {|f| f.text? }.sort ?>
 						<li><a href="[?attr rel_prefix ?]/[?call file.path ?]"><?escape file.page_name ?></a></li>
 				<?end for ?>

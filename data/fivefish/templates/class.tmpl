@@ -13,7 +13,6 @@
 		</section>
 
 		<?for section, constants, attrs in klass.each_section ?>
-		<!-- Section: [?pp section ?] -->
 		<section id="<?call section.aref ?>" class="documentation-section">
 			<?if section.title ?>
 			<header>
@@ -71,7 +70,6 @@
 
 			<!-- Methods -->
 			<?for scope, visibilities in klass.methods_by_type( section ) ?>
-				<!-- Scope: [?pp scope ?] -->
 			<?for visibility, methodlist in visibilities ?>
 
 			<?unless methodlist.empty? ?>
@@ -82,11 +80,10 @@
 				</header>
 
 				<?for method in methodlist ?>
-				<div id="<?call method.aref ?>" class="method-detail[?if method.is_alias_for
+				<div id="<?call method.aref ?>" class="method[?if method.is_alias_for
 					?] method-alias[?end if ?]">
 
 					<header>
-						<span class="method-click-advice">click to toggle source</span>
 					<?if method.call_seq ?>
 						<?for call_seq, i in method.call_seq.strip.split("\n") ?>
 						<span class="method-callseq">
@@ -94,8 +91,8 @@
 						</span>
 						<?end for ?>
 					<?else ?>
-						<span class="method-name"><?escape method.name ?></span>
-						<span class="method-args"><?escape method.param_seq ?></span>
+						<span class="method-name"><?escape method.name ?></span><span 
+							class="method-args"><?escape method.param_seq ?></span>
 					<?end if ?>
 					</header>
 
@@ -108,7 +105,8 @@
 
 					<?if method.token_stream ?>
 						<div class="method-source-code" id="<?call method.html_name ?>-source">
-							<pre><?call method.markup_code ?></pre>
+							<pre class="prettyprint linenums"><code 
+								class="language-ruby"><?call method.markup_code ?></code></pre>
 						</div>
 					<?end ?>
 					</div>

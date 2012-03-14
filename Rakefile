@@ -45,7 +45,7 @@ ENV['VERSION'] ||= hoespec.spec.version.to_s
 task 'hg:precheckin' => [:check_history, :check_manifest, :spec]
 
 
-RDoc::Task.new do |rdoc|
+RDoc::Task.new( :docs ) do |rdoc|
 	rdoc.main       = "README.rdoc"
 	rdoc.rdoc_dir   = 'doc'
 	rdoc.generator  = 'fivefish'
