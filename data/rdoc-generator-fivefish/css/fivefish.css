@@ -27,8 +27,14 @@ h2.namespace {
 
 /* Class/module description */
 section.description p {
-	font-size: 1.5em;
-	margin: 1em 0 2em;
+	font-size: 1.2em;
+	margin: 1em 0;
+}
+section.description p + p {
+	margin: 1em 0;
+}
+section.description h2 {
+	margin-top: 1.5em;
 }
 
 
@@ -65,16 +71,18 @@ div.method div.method-description p {
 /* @group Source Code */
 
 div.method-source-code {
-	display: none;
+	isplay: none;
 }
 div.method-source-code pre,
 pre.ruby {
   overflow: auto;
-  background: #262626;
+  background: -moz-linear-gradient(90deg, #424242 0%, #363636 100%), #262626;
   color: #ccc;
   padding: 0.5em;
-  box-shadow: 0px 3px 5px #444;
   border-radius: 5px;
+  background: -webkit-gradient(linear, left bottom, left top, from(#424242), to(#363636)), #262626;
+  border-style: inset;
+  border-width: 3px;
 }
 
 .description pre {
@@ -85,11 +93,12 @@ pre.ruby {
 .ruby-keyword    { color: #00ffff; background: transparent; }
 .ruby-ivar       { color: #eedd82; background: transparent; }
 .ruby-operator   { color: #00ffee; background: transparent; }
-.ruby-identifier { color: #ffdead; background: transparent; }
+.ruby-identifier { color: #ffe780; background: transparent; }
 .ruby-node       { color: #ffa07a; background: transparent; }
-.ruby-comment    { color: #dc0000; font-weight: bold; background: transparent; }
+.ruby-comment    { color: #e11111; background: transparent;	font-style: italic; }
 .ruby-regexp     { color: #ffa07a; background: transparent; }
 .ruby-value      { color: #7fffd4; background: transparent; }
+.ruby-string     { color: #ffa963; background-color: rgba(190, 190, 190, 0.15); }
 
 /* @end */
 
