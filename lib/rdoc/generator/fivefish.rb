@@ -15,7 +15,9 @@ class RDoc::Generator::Fivefish
     include FileUtils
 
 	# The data directory in the project if that exists, otherwise the gem datadir
-	DATADIR = if File.directory?( 'data/rdoc-generator-fivefish' )
+	DATADIR = if ENV['FIVEFISH_DATADIR']
+			Pathname( ENV['FIVEFISH_DATADIR'] ).expand_path( Pathname.pwd )
+		elsif File.directory?( 'data/rdoc-generator-fivefish' )
 			Pathname( 'data/fivefish' ).expand_path( Pathname.pwd )
 		elsif path = Gem.datadir('rdoc-generator-fivefish')
 			Pathname( path )

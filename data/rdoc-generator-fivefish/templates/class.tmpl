@@ -1,12 +1,20 @@
 <?import rel_prefix, modsort, files ?>
 
-		<section class="hero-unit">
-			<h1 class="[?call klass.type ?]"><?call klass.full_name ?></h1>
-		</section>
+		<header class="hero-unit">
+			<hgroup>
+				<?if klass.parent ?>
+				<h2 class="namespace"><?call klass.parent.full_name ?>::</h2>
+				<?end if ?>
+				<h1 class="[?call klass.type ?]"><?call klass.name ?></h1>
+			</hgroup>
+			<span class="label"><?call klass.type ?></span>
+		</header>
 
+		<?if klass.file ?>
 		<div class="file-metadata">
 			<p class="filename">Filename: <code><?call klass.file ?></code></p>
 		</div>
+		<?end if ?>
 
 		<section class="description">
 			<?call klass.description ?>
@@ -79,55 +87,55 @@
 					<h3><?call visibility.to_s.capitalize ?> <?call scope.capitalize ?> Methods</h3>
 				</header>
 
-				<?for method in methodlist ?>
-				<div id="<?call method.aref ?>" class="method[?if method.is_alias_for
+				<?for meth in methodlist ?>
+				<div id="<?call meth.aref ?>" class="method[?if meth.is_alias_for
 					?] method-alias[?end if ?]">
 
 					<header>
-					<?if method.call_seq ?>
-						<?for call_seq, i in method.call_seq.strip.split("\n") ?>
+					<?if meth.call_seq ?>
+						<?for call_seq, i in meth.call_seq.strip.split("\n") ?>
 						<span class="method-callseq">
 							<?escape call_seq.strip.gsub( /^\w+\./m, '').gsub(/[-=]>/, '&rarr;') ?>
 						</span>
 						<?end for ?>
 					<?else ?>
-						<span class="method-name"><?escape method.name ?></span><span 
-							class="method-args"><?escape method.param_seq ?></span>
+						<span class="method-name"><?escape meth.name ?></span><span 
+							class="method-args"><?escape meth.param_seq ?></span>
 					<?end if ?>
 					</header>
 
 					<div class="method-description">
-					<?if method.comment ?>
-						<?call method.description.strip ?>
+					<?if meth.comment ?>
+						<?call meth.description.strip ?>
 					<?else ?>
 						<p class="missing-docs">(Not documented)</p>
 					<?end ?>
 
-					<?if method.token_stream ?>
-						<div class="method-source-code" id="<?call method.html_name ?>-source">
+					<?if meth.token_stream ?>
+						<div class="method-source-code" id="[?call meth.html_name ?]-source">
 							<pre class="prettyprint linenums"><code 
-								class="language-ruby"><?call method.markup_code ?></code></pre>
+								class="language-ruby"><?call meth.markup_code ?></code></pre>
 						</div>
 					<?end ?>
 					</div>
 
-					<?unless method.aliases.empty? ?>
+					<?unless meth.aliases.empty? ?>
 					<div class="aliases">
 						Also aliased as:
-						<?for aka in method.aliases ?>
+						<?for aka in meth.aliases ?>
 							<?if aka.parent ?>
 							<a href="[?call klass.aref_to(aka.path) ?]"><?escape aka.name ?></a>
 							<?else ?>
 							<?escape aka.name ?>
-							<?end if ?><?unless aka == method.aliases.last ?>, <?end unless ?>
+							<?end if ?><?unless aka == meth.aliases.last ?>, <?end unless ?>
 						<?end for ?>
 					</div>
 					<?end ?>
 
-					<?if method.is_alias_for ?>
+					<?if meth.is_alias_for ?>
 					<div class="aliases">
-						Alias for: <a href="[?call klass.aref_to( method.is_alias_for.path ) 
-							?]"><?escape method.is_alias_for.name ?></a>
+						Alias for: <a href="[?call klass.aref_to( meth.is_alias_for.path ) 
+							?]"><?escape meth.is_alias_for.name ?></a>
 					</div>
 					<?end if ?>
 				</div>
