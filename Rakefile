@@ -1,6 +1,6 @@
 #! -*- ruby -*-
 
-require 'pry'
+require 'pathname'
 
 begin
 	require 'hoe'
@@ -13,7 +13,19 @@ Hoe.add_include_dirs 'lib'
 gem 'rdoc', '~> 3.12'
 require 'fivefish'
 require 'rdoc/task'
+require 'rake'
 require 'rake/clean'
+
+PACKAGE_NAME = 'rdoc-generator-fivefish'
+BASEDIR = Pathname( __FILE__ ).dirname
+DATADIR = BASEDIR + "data/#{PACKAGE_NAME}"
+
+FONTSDIR = DATADIR + 'fonts'
+TTF_FONTS = FileList[ (FONTSDIR + '*.ttf').to_s ]
+WOFF_FONTS = TTF_FONTS.pathmap( '%X.woff' )
+
+CLEAN.include( WOFF_FONTS )
+
 
 Hoe.plugin :deveiate
 Hoe.plugin :mercurial
@@ -22,7 +34,7 @@ Hoe.plugin :manualgen
 
 Hoe.plugins.delete :rubyforge
 
-hoespec = Hoe.spec 'rdoc-generator-fivefish' do
+hoespec = Hoe.spec( PACKAGE_NAME )  do
 	self.readme_file = 'README.rdoc'
 	self.history_file = 'History.rdoc'
 	self.extra_rdoc_files << 'README.rdoc' << 'History.rdoc'
@@ -55,10 +67,12 @@ RDoc::Task.new( :docs ) do |rdoc|
 end
 
 
+task :check_manifest => WOFF_FONTS
+
+
 desc "Compress truetype fonts to WOFF"
 rule '.woff' => '.ttf' do |task|
 	sh 'sfnt2woff', task.prerequisites.first
 end
-CLEAN.include( 'data/rdoc-generator-fivefish/fonts/*.woff' )
 
 

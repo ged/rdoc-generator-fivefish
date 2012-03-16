@@ -6,3 +6,4 @@
 ^coverage.info$
 ^ChangeLog$
 ^pkg/
+\.woff$

@@ -3,13 +3,14 @@ History.rdoc
 Manifest.txt
 README.rdoc
 Rakefile
+data/rdoc-generator-fivefish/css/bootstrap-responsive.min.css
+data/rdoc-generator-fivefish/css/bootstrap.min.css
+data/rdoc-generator-fivefish/css/fivefish.css
 data/rdoc-generator-fivefish/fonts/IstokWeb-Bold.woff
 data/rdoc-generator-fivefish/fonts/IstokWeb-BoldItalic.woff
 data/rdoc-generator-fivefish/fonts/IstokWeb-Italic.woff
 data/rdoc-generator-fivefish/fonts/IstokWeb-Regular.woff
-data/rdoc-generator-fivefish/css/bootstrap-responsive.min.css
-data/rdoc-generator-fivefish/css/bootstrap.min.css
-data/rdoc-generator-fivefish/css/fivefish.css
+data/rdoc-generator-fivefish/fonts/OFL.txt
 data/rdoc-generator-fivefish/img/glyphicons-halflings-white.png
 data/rdoc-generator-fivefish/img/glyphicons-halflings.png
 data/rdoc-generator-fivefish/js/bootstrap.min.js
