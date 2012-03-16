@@ -6,12 +6,29 @@
  * - Michael Granger <ged@FaerieMUD.org>
  */
 
+@font-face {
+	font-family: 'Istok Web';
+	font-style: normal;
+	font-weight: 400;
+	src: local('Istok Web Regular'),
+	     local('IstokWeb-Regular'),
+		 url('../fonts/IstokWeb-Regular.ttf') format('ttf');
+}
+@font-face {
+	font-family: 'Istok Web';
+	font-style: normal;
+	font-weight: 700;
+	src: local('Istok Web Bold'),
+	     local('IstokWeb-Bold'),
+		 url('../fonts/IstokWeb-Bold') format('ttf');
+}
+
 @import url(bootstrap.min.css);
 body {
+	font-family: 'Istok Web';
 	padding-top: 45px;
 }
 @import url(bootstrap-responsive.min.css);
-
 
 /* Debugging stuff */
 div.container > pre {
