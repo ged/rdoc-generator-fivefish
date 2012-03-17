@@ -83,22 +83,22 @@ div.method div.method-description p {
 /* @group Source Code */
 
 div.method-source-code {
-	isplay: none;
+	display: none;
 }
 div.method-source-code pre,
 pre.ruby {
-  overflow: auto;
-  background: -moz-linear-gradient(90deg, #424242 0%, #363636 100%), #262626;
-  color: #ccc;
-  padding: 0.5em;
-  border-radius: 5px;
-  background: -webkit-gradient(linear, left bottom, left top, from(#424242), to(#363636)), #262626;
-  border-style: inset;
-  border-width: 3px;
+	overflow: auto;
+	background: -moz-linear-gradient(90deg, #424242 0%, #363636 100%), #262626;
+	color: #ccc;
+	padding: 0.5em;
+	border-radius: 5px;
+	background: -webkit-gradient(linear, left bottom, left top, from(#424242), to(#363636)), #262626;
+	border-style: inset;
+	border-width: 3px;
 }
 
 .description pre {
-  margin: 0 0.4em;
+	margin: 0 0.4em;
 }
 
 .ruby-constant   { color: #7fffd4; background: transparent; }
