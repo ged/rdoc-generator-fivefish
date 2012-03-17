@@ -42,7 +42,7 @@ hoespec = Hoe.spec( PACKAGE_NAME )  do
 
 	self.developer 'Michael Granger', 'ged@FaerieMUD.org'
 
-	self.dependency 'inversion', '~> 0.5'
+	self.dependency 'inversion', '~> 0.6.1'
 	self.dependency 'rdoc',      '~> 3.12'
 
 	self.spec_extras[:licenses] = ["BSD"]
