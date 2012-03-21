@@ -51,7 +51,7 @@
 				</header>
 				<dl>
 				<?for const in constants.select {|c| c.display? } ?>
-					<dt id="[?call const.name ?]"><?call const.name ?></dt>
+					<dt id="[?call const.name ?]"><i class="icon-generic"></i><?call const.name ?></dt>
 					<?if const.comment ?>
 					<dd class="description"><?call const.description.strip ?></dd>
 					<?else ?>
@@ -70,7 +70,7 @@
 				</header>
 				<dl>
 				<?for attrib in attrs.select {|a| a.display? } ?>
-					<dt id="[?call attrib.aref ?]"><?call attrib.name ?><span
+					<dt id="[?call attrib.aref ?]"><i class="icon-generic"></i><?call attrib.name ?><span
 						class="attribute-access-type">[<?call attrib.rw ?>]</span></dt>
 					<?if attrib.comment ?>
 					<dd class="description"><?call attrib.description.strip ?></dd>
@@ -87,8 +87,7 @@
 			<?for visibility, methodlist in visibilities ?>
 
 			<?unless methodlist.empty? ?>
-			<section id="<?attr visibility ?>-<?attr scope ?>-<?call
-				section.aref ?>-method-details" class="method-list">
+			<section class="[?attr visibility ?]-methods [?attr scope ?]-methods methods">
 				<header>
 					<h3><?call visibility.to_s.capitalize ?> <?call scope.capitalize ?> Methods</h3>
 				</header>
@@ -98,6 +97,7 @@
 					?] method-alias[?end if ?]">
 
 					<header>
+						<i class="icon-generic"></i>
 					<?if meth.call_seq ?>
 						<?for call_seq, i in meth.call_seq.strip.split("\n") ?>
 						<span class="method-callseq">

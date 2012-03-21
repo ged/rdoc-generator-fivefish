@@ -18,7 +18,7 @@ class RDoc::Generator::Fivefish
 	DATADIR = if ENV['FIVEFISH_DATADIR']
 			Pathname( ENV['FIVEFISH_DATADIR'] ).expand_path( Pathname.pwd )
 		elsif File.directory?( 'data/rdoc-generator-fivefish' )
-			Pathname( 'data/fivefish' ).expand_path( Pathname.pwd )
+			Pathname( 'data/rdoc-generator-fivefish' ).expand_path( Pathname.pwd )
 		elsif path = Gem.datadir('rdoc-generator-fivefish')
 			Pathname( path )
 		else

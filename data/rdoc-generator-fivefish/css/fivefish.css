@@ -26,6 +26,11 @@ h2.namespace {
 	color: #666;
 }
 
+div.container > header.hero-unit {
+	background-image: -webkit-gradient(linear, left bottom, right bottom, from(#e6e6e6), color-stop(0.858, #aaaaaa), to(#818181));
+	background-image: -moz-linear-gradient(0deg, #e6e6e6 0%, #aaaaaa 85.8%, #818181 100%);
+}
+
 /* Indexes */
 section#indexes {
 	max-height: 460px;
@@ -54,16 +59,40 @@ section.description h2 {
 section.documentation-section {
 	margin-top: 3em;
 }
+section .section-click-top {
+	float: right;
+}
 
+section.constants-list dt,
+section.attributes-list dt {
+	background: #eee;
+}
+section.constants-list dt i {
+	margin-right: 0.5em;
+	background-position: -24px -72px;
+}
+
+section.attributes-list dt i {
+	margin-right: 0.5em;
+	background-position: -456px -96px;
+}
 
 /* "Public instance methods" + method list */
-section.method-list + section.method-list {
-	margin-top: 2em;
+section.methods + section.methods {
+	margin-top: 3em;
 }
+section.public-methods div.method header i {
+	background-position:0 -96px;
+	margin-top: 4px;
+}
+section.protected-methods div.method header i {
+	background-position:-24px -96px;
+	margin-top: 4px;
+}
+
 
 /* Individual method */
 div.method {
-	background: #eee;
 }
 div.method + div.method {
 	margin-top: 30px;
@@ -71,6 +100,7 @@ div.method + div.method {
 div.method header {
 	font-weight: bold;
 	font-size: 1.2em;
+	background: #eee;
 }
 div.method header span.method-args {
 	color: #666;
