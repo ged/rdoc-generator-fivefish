@@ -31,6 +31,10 @@
 		defer="defer" charset="utf-8"></script>
 	<script src="[?attr rel_prefix ?]/js/bootstrap.min.js" type="text/javascript"
 		defer="defer" charset="utf-8"></script>
+	<script src="[?attr rel_prefix ?]/js/jquery.dropdown.js" type="text/javascript"
+		defer="defer" charset="utf-8"></script>
+	<script src="[?attr rel_prefix ?]/js/jquery.hotkeys.js" type="text/javascript"
+		defer="defer" charset="utf-8"></script>
 	<script src="[?attr rel_prefix ?]/js/fivefish.js" type="text/javascript"
 		defer="defer" charset="utf-8" onload="initFivefish()"></script>
 </head>
@@ -51,23 +55,22 @@
 
 				<div class="nav-collapse">
 					<ul class="nav">
-						<li class="dropdown">
+						<li>
 							<a href="#"
 								class="dropdown-toggle"
-								data-toggle="dropdown">
+								data-dropdown="#class-dropdown">
 								Classes
 								<b class="caret"></b>
 							</a>
-							<ul class="dropdown-menu">
-							<?for index_class in modsort.select( &:documented? ) ?>
-								<li><a href="[?attr rel_prefix ?]/[?call index_class.path ?]"><?call 
-									index_class.full_name ?></a></li>
-							<?end for ?>
-							</ul>
 						</li>
-				<?for file in files.select {|f| f.text? }.sort ?>
-						<li><a href="[?attr rel_prefix ?]/[?call file.path ?]"><?escape file.page_name ?></a></li>
-				<?end for ?>
+						<li>
+							<a href="#"
+								class="dropdown-toggle"
+								data-dropdown="#file-dropdown">
+								Files
+								<b class="caret"></b>
+							</a>
+						</li>
 					</ul>
 				</div><!--/.nav-collapse -->
 				<form class="navbar-search pull-right">
@@ -89,6 +92,48 @@
 			</div>
 		</footer>
 	</div> <!-- /container -->
+
+	<!-- Class dropdown menu -->
+	<div id="class-dropdown" class="dropdown-menu has-scroll">
+	<ul>
+	<?for index_class in modsort.select( &:documented? ) ?>
+		<li><a href="[?attr rel_prefix ?]/[?call index_class.path ?]"><?call 
+			index_class.full_name ?></a></li>
+	<?end for ?>
+	</ul>
+	</div>
+
+	<!-- File dropdown menu -->
+	<div id="file-dropdown" class="dropdown-menu has-scroll">
+	<ul>
+	<?for file in files.select {|f| f.text? }.sort ?>
+		<li><a href="[?attr rel_prefix ?]/[?call file.path ?]"><?escape
+			file.page_name ?></a></li>
+	<?end for ?>
+	</ul>
+	</div>
+
+	<!-- Keyboard shortcut help -->
+	<div class="modal" id="shortcut-help">
+		<div class="modal-header">
+			<a class="close" data-dismiss="modal">×</a>
+			<h3>Keyboard Shortcuts</h3>
+		</div>
+		<div class="modal-body">
+			<table>
+				<tbody>
+					<tr>
+						<th>/</th>
+						<td>Search</td>
+					</tr>
+					<tr>
+						<th>?</th>
+						<td>Show this help</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
 
 </body>
 </html>

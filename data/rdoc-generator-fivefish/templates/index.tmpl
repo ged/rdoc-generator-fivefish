@@ -23,7 +23,9 @@
 					<li class="nav-header">Methods</li>
 				<?for method in all_methods ?>
 					<li class="method"><a title="[?call method.parent.full_name ?]" 
-						href="[?call method.path ?]"><?call method.pretty_name ?></a></li>
+						href="[?call method.path ?]"><?call method.pretty_name ?></a>&nbsp;<span
+						 class="method-parent">(<?call method.parent.full_name ?>)</span>
+					</li>
 				<?end for ?>
 				</ul>
 			</div>

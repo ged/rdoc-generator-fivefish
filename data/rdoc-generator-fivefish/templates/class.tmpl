@@ -3,24 +3,23 @@
 		<header class="hero-unit">
 			<hgroup>
 				<?if klass.parent ?>
-				<?if klass.parent.respond_to?(:module?) ?>
+				  <?if klass.parent.respond_to?(:module?) ?>
 				<h2 class="namespace"><?call klass.parent.full_name ?>::</h2>
+				  <?end if ?>
 				<?end if ?>
-				<?end if ?>
+				<?if klass.in_files.empty? ?>
 				<h1 class="[?call klass.type ?]"><?call klass.name ?></h1>
+				<?else?>
+				<h1 class="[?call klass.type ?]"
+					rel="popover"
+					data-original-title="In files"
+					data-content="[?call klass.in_files.map {|f| f.full_name }.join(',') ?]"
+					><?call klass.name ?></h1>
+				</p>
+				<?end if ?>
 			</hgroup>
 			<span class="label"><?call klass.type ?></span>
 		</header>
-
-		<?unless klass.in_files.empty? ?>
-		<div class="file-metadata">
-			<p class="filename">In files:
-				<?for fileobj in klass.in_files ?>
-				<code><?call fileobj.full_name ?></code>
-				<?end for ?>
-			</p>
-		</div>
-		<?end unless ?>
 
 		<section class="description">
 			<?call klass.description ?>
@@ -155,8 +154,4 @@
 
 		</section>
 		<?end for ?>
-
-<pre>
-<?pp klass ?>
-</pre>
 

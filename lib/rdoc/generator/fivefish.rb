@@ -271,7 +271,7 @@ class RDoc::Generator::Fivefish
 
 		debug_msg "Generating file documentation in #{self.output_dir}"
 
-		@files.each do |file|
+		@files.select {|f| f.text? }.each do |file|
 			out_file = self.output_dir + file.path
 			out_file.dirname.mkpath
 

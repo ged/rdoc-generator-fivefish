@@ -6,21 +6,26 @@
  *
  */
 
+var keyboardShortcuts = {
+	'/': function(e) { $('.navbar-search input').focus(); },
+	'shift+/': function(e) { $('#shortcut-help').modal(); }
+}
+
 var $window = $(window);
 
 function initFivefish() {
+	console.debug( "Loaded. Waiting for DOM to be ready." );
 	$(document).ready( onReady );
 }
 
 function onReady() {
 	console.debug( "Ready!" );
 
-	$(window).scroll( onScroll );
+	$('header.hero-unit h1').popover({ placement: 'right' });
+	$.each( keyboardShortcuts, function(key, callback) {
+		console.debug( "Registering shortcut: %s -> %o", key, callback );
+		$('body').bind( 'keyup', key, callback );
+	});
 }
 
-function onScroll( e ) {
-	if ( $('.subnav').length ) {
-		console.debug( "Offset is: %d", $('.subnav').offset().top );
-	}
-}
 
