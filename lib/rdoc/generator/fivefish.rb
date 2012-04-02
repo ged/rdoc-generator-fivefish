@@ -101,7 +101,7 @@ class RDoc::Generator::Fivefish
 		self.generate_class_files
 		self.generate_file_files
 
-		# @json_index.generate( top_levels )
+		@json_index.generate( top_levels )
 
 		self.copy_static_assets
 	end

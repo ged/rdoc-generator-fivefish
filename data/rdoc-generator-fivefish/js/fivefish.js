@@ -26,6 +26,15 @@ function onReady() {
 		console.debug( "Registering shortcut: %s -> %o", key, callback );
 		$('body').bind( 'keyup', key, callback );
 	});
+
+	$( 'div.method header i' ).click( function(e) {
+		var icon = e.target;
+		var method_div = $(icon).parents( 'div' ).get(0);
+		var source = $(method_div).find( 'div.method-source-code' );
+
+		console.debug( "Toggling: %o", source );
+		source.fadeToggle();
+	});
 }
 
 

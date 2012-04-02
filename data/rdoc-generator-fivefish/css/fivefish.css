@@ -49,6 +49,12 @@ section#indexes ul.nav-list {
 	background: #f5f5f5;
 }
 
+section#indexes a .method-parent {
+	color: #666;
+	font-size: 11px;
+	font-variant: small-caps;
+}
+
 /* Class/module description */
 section.description p {
 	font-size: 1.2em;

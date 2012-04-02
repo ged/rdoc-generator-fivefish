@@ -1,10 +1,10 @@
 <?import rel_prefix, modsort, files ?>
 
-		<section class="hero-unit">
+		<header class="hero-unit">
 			<?attr synopsis ?>
 			<p><a class="btn btn-primary btn-large" 
 				href="[?call mainpage.path ?]">Learn more &raquo;</a></p>
-		</section>
+		</header>
 
 		<!-- Indexes -->
 		<section id="indexes" class="row">
@@ -22,9 +22,11 @@
 				<ul id="method-index" class="nav nav-list">
 					<li class="nav-header">Methods</li>
 				<?for method in all_methods ?>
-					<li class="method"><a title="[?call method.parent.full_name ?]" 
-						href="[?call method.path ?]"><?call method.pretty_name ?></a>&nbsp;<span
-						 class="method-parent">(<?call method.parent.full_name ?>)</span>
+					<li class="method"><a title="[?call method.parent.full_name ?]"
+						href="[?call method.path ?]"><?call method.pretty_name ?>
+						<span class="method-parent">[<?call 
+							method.parent.full_name.sub(/.*(::)/, '\\1') ?>]</span>
+						</a>
 					</li>
 				<?end for ?>
 				</ul>
