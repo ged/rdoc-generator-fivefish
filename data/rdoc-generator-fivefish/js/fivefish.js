@@ -6,12 +6,12 @@
  *
  */
 
+var searchIndex = [];
+
 var keyboardShortcuts = {
 	'/': function(e) { $('.navbar-search input').focus(); },
 	'shift+/': function(e) { $('#shortcut-help').modal(); }
 }
-
-var $window = $(window);
 
 function initFivefish() {
 	console.debug( "Loaded. Waiting for DOM to be ready." );
@@ -36,12 +36,21 @@ function onReady() {
 		source.fadeToggle();
 	});
 
-	$.getJSON( 'file:///search_index.json' ).success( function( data ) {
+	$.getJSON( 'search_index.json' ).success( function(data) {
+		console.debug( "Setting up search." );
+		searchIndex = data;
+
+		var items = $(data).map( function(i, idxobj) {
+			console.debug( "Mapping %s.", idxobj.name );
+			return idxobj.name;
+		});
+
 		$( 'input.search-query' ).typeahead({
-			source: data,
+			source: items,
 			matcher: function(item) {
-				console.debug( "Matching %o against %o", item, this.query );
-				return false;
+				var re = new RegExp( this.query, 'i' );
+				console.debug( "Matching %s", item );
+				return re.test( item );
 			}
 		});
 	});

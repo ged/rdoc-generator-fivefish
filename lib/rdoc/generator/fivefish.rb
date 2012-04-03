@@ -194,7 +194,11 @@ class RDoc::Generator::Fivefish
 
 	### Load the layout template and return it after setting any values it needs.
 	def load_layout_template
-		template = self.load_template( 'layout.tmpl' )
+		template = if ENV['FIVEFISH_DEVELMODE']
+				self.load_template( 'devel-layout.tmpl' )
+			else
+				self.load_template( 'layout.tmpl' )
+			end
 
 		template.files   = @files
 		template.classes = @classes

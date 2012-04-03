@@ -10,19 +10,19 @@ end
 
 Hoe.add_include_dirs 'lib'
 
-gem 'rdoc', '~> 3.12'
-require 'fivefish'
 require 'rdoc/task'
 require 'rake'
 require 'rake/clean'
 
 PACKAGE_NAME = 'rdoc-generator-fivefish'
-BASEDIR = Pathname( __FILE__ ).dirname
+BASEDIR = Pathname( __FILE__ ).dirname.relative_path_from( Pathname.pwd )
 DATADIR = BASEDIR + "data/#{PACKAGE_NAME}"
+ASSETDIR = BASEDIR + 'assets'
 
+FONTSRC  = ASSETDIR + 'fonts'
+TTF_FONTS = FileList[ (FONTSRC + '*.ttf').to_s ]
 FONTSDIR = DATADIR + 'fonts'
-TTF_FONTS = FileList[ (FONTSDIR + '*.ttf').to_s ]
-WOFF_FONTS = TTF_FONTS.pathmap( '%X.woff' )
+WOFF_FONTS = TTF_FONTS.pathmap( (FONTSDIR + "%n.woff").to_s )
 
 CLEAN.include( WOFF_FONTS )
 
@@ -59,6 +59,13 @@ ENV['VERSION'] ||= hoespec.spec.version.to_s
 task 'hg:precheckin' => [:check_history, :check_manifest, :spec]
 
 
+# Enable the development-mode layout template
+task :dev do
+	ENV['FIVEFISH_DEVELMODE'] = 'true'
+end
+
+
+# Eat our own dogfood
 RDoc::Task.new( :docs ) do |rdoc|
 	rdoc.main       = "README.rdoc"
 	rdoc.rdoc_dir   = 'doc'
@@ -67,13 +74,16 @@ RDoc::Task.new( :docs ) do |rdoc|
 	rdoc.rdoc_files.include( 'README.rdoc', 'History.rdoc', 'lib/**/*.rb' )
 end
 
-
+# Generate WOFF fonts from the source TTF ones
 task :check_manifest => WOFF_FONTS
-
-
 desc "Compress truetype fonts to WOFF"
 rule '.woff' => '.ttf' do |task|
 	sh 'sfnt2woff', task.prerequisites.first
+end
+
+# Load all the asset-related tasks
+Rake::FileList[ 'tasks/*.rb' ].each do |tasklib|
+	require_relative( tasklib )
 end
 
 
