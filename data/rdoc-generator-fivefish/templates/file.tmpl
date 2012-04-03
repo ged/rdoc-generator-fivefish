@@ -1,10 +1,14 @@
 <?import rel_prefix, modsort, files ?>
 
-		<div class="file-metadata">
-			<p class="filename">Filename: <code><?call file.name ?></code></p>
-		</div>
+		<header class="hero-unit">
+		<?if header =~ /<h\d/ ?>
+			<?attr header ?>
+		<?else?>
+			<h1><?attr header ?></h1>
+		<?end if ?>
+		</header>
 
-		<section>
-			<?call file.description ?>
+		<section class="description">
+			<?attr description ?>
 		</section>
 

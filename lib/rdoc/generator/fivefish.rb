@@ -4,6 +4,7 @@ require 'pry'
 
 gem 'rdoc', '~> 3.12'
 
+require 'yajl'
 require 'inversion'
 require 'fileutils'
 require 'pathname'
@@ -44,8 +45,7 @@ class RDoc::Generator::Fivefish
 		@template_cache = {}
 		@files          = nil
 		@classes        = nil
-
-		@json_index     = RDoc::Generator::JsonIndex.new( self, options )
+		@search_index   = {}
 
 		Inversion::Template.configure( :template_paths => [self.template_dir + 'templates'] )
 	end
@@ -97,11 +97,11 @@ class RDoc::Generator::Fivefish
 		@methods = @classes.map {|m| m.method_list }.flatten.sort
 		@modsort = self.get_sorted_module_list( @classes )
 
-		self.generate_index
+		self.generate_index_page
 		self.generate_class_files
 		self.generate_file_files
 
-		@json_index.generate( top_levels )
+		self.generate_search_index
 
 		self.copy_static_assets
 	end
@@ -210,7 +210,7 @@ class RDoc::Generator::Fivefish
 
 
 	### Generate an index page which lists all the classes which are documented.
-	def generate_index
+	def generate_index_page
 		self.debug_msg "Generating index page"
 		layout = self.load_layout_template
 		template = self.load_template( 'index.tmpl' )
@@ -279,6 +279,16 @@ class RDoc::Generator::Fivefish
 
 			template.file = file
 
+			# If the page itself has an H1, use it for the header, otherwise make one
+			# out of the name of the file
+			if md = file.description.match( %r{<h1.*?>.*?</h1>}i )
+				template.header = md[ 0 ]
+				template.description = file.description[ md.offset(0)[1] + 1 .. -1 ]
+			else
+				template.header = File.basename( file.full_name, File.extname(file.full_name) )
+				template.description = file.description
+			end
+
 			layout.contents = template
 			layout.rel_prefix = self.output_dir.relative_path_from(out_file.dirname)
 			layout.pageclass = 'file-page'
@@ -286,6 +296,43 @@ class RDoc::Generator::Fivefish
 			out_file.open( 'w', 0644 ) {|io| io.print(layout.render) }
 		end
 	end
+
+
+	### Generate a JSON search index for the quicksearch blank.
+	def generate_search_index
+		out_file = self.output_dir + 'search_index.json'
+
+		self.debug_msg "Generating search index (%s)." % [ out_file ]
+		index = []
+
+	    objs = self.get_indexable_objects
+		objs.each do |codeobj|
+			self.debug_msg "  #{codeobj.name}..."
+			record = codeobj.search_record
+			index << {
+				name:    record[2],
+				link:    record[4],
+				snippet: record[6]
+			}
+		end
+
+		self.debug_msg "  dumping JSON..."
+		ofh = out_file.open( 'w:utf-8', 0644 )
+		Yajl::Encoder.encode( index, ofh, pretty: true, indent: "\t" )
+	end
+
+
+	### Return a list of CodeObjects that belong in the index.
+	def get_indexable_objects
+		objs = []
+
+		objs += @classes.uniq.select( &:document_self_or_methods )
+		objs += @classes.uniq.map( &:method_list ).flatten
+		objs += @files.select( &:text? )
+
+		return objs
+	end
+
 
 end # class RDoc::Generator::Fivefish
 

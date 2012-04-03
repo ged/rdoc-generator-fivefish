@@ -35,6 +35,16 @@ function onReady() {
 		console.debug( "Toggling: %o", source );
 		source.fadeToggle();
 	});
+
+	$.getJSON( 'file:///search_index.json' ).success( function( data ) {
+		$( 'input.search-query' ).typeahead({
+			source: data,
+			matcher: function(item) {
+				console.debug( "Matching %o against %o", item, this.query );
+				return false;
+			}
+		});
+	});
 }
 
 
