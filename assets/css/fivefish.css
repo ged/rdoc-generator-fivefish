@@ -2,11 +2,36 @@
  * Fivefish CSS
  * $Id$
  *
+ * Copyright (c) 2012 by the authors
+ *
  * Authors:
  * - Michael Granger <ged@FaerieMUD.org>
  */
 
-@import url(http://fonts.googleapis.com/css?family=Istok+Web:400,700,400italic&subset=latin,latin-ext);
+@font-face {
+	font-family: 'Istok Web';
+	font-style: normal;
+	font-weight: 400;
+	src: local('Istok Web Regular'),
+	     local('IstokWeb-Regular'),
+	     url('../fonts/IstokWeb-Regular.woff') format('woff');
+}
+@font-face {
+	font-family: 'Istok Web';
+	font-style: italic;
+	font-weight: 400;
+	src: local('Istok Web Italic'),
+	     local('IstokWeb-Italic'),
+	     url('../fonts/IstokWeb-Italic.woff') format('woff');
+}
+@font-face {
+	font-family: 'Istok Web';
+	font-style: normal;
+	font-weight: 700;
+	src: local('Istok Web Bold'),
+	     local('IstokWeb-Bold'),
+	     url('../fonts/IstokWeb-Bold.woff') format('woff');
+}
 
 @import url(bootstrap.min.css);
 body {

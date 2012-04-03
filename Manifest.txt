@@ -13,7 +13,6 @@ data/rdoc-generator-fivefish/fonts/IstokWeb-Regular.woff
 data/rdoc-generator-fivefish/fonts/OFL.txt
 data/rdoc-generator-fivefish/img/glyphicons-halflings-white.png
 data/rdoc-generator-fivefish/img/glyphicons-halflings.png
-data/rdoc-generator-fivefish/js/bootstrap.min.js
 data/rdoc-generator-fivefish/js/fivefish.min.js
 data/rdoc-generator-fivefish/js/jquery-1.7.1.min.js
 data/rdoc-generator-fivefish/templates/class.tmpl

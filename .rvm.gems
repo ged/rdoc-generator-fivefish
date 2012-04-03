@@ -2,4 +2,5 @@
 inversion -v0.8.0
 yajl-ruby -v1.1.0
 rdoc -v3.12
-
+less -v2.1.0
+uglifier -v1.2.4

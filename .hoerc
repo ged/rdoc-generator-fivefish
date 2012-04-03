@@ -1,2 +1,2 @@
 --- 
-exclude: !ruby/regexp /tmp$|\.(hg|hoerc|DS_Store|rvm(rc|\.gems)|tm_.*)|\.ttf$/
+exclude: !ruby/regexp /tmp$|\.(hg|hoerc|DS_Store|rvm(rc|\.gems)|tm_.*)|assets|tasks|\.ttf$/
