@@ -5,7 +5,7 @@ README.rdoc
 Rakefile
 data/rdoc-generator-fivefish/css/bootstrap-responsive.min.css
 data/rdoc-generator-fivefish/css/bootstrap.min.css
-data/rdoc-generator-fivefish/css/fivefish.css
+data/rdoc-generator-fivefish/css/fivefish.min.css
 data/rdoc-generator-fivefish/fonts/IstokWeb-Bold.woff
 data/rdoc-generator-fivefish/fonts/IstokWeb-BoldItalic.woff
 data/rdoc-generator-fivefish/fonts/IstokWeb-Italic.woff
@@ -14,10 +14,8 @@ data/rdoc-generator-fivefish/fonts/OFL.txt
 data/rdoc-generator-fivefish/img/glyphicons-halflings-white.png
 data/rdoc-generator-fivefish/img/glyphicons-halflings.png
 data/rdoc-generator-fivefish/js/bootstrap.min.js
-data/rdoc-generator-fivefish/js/fivefish.js
+data/rdoc-generator-fivefish/js/fivefish.min.js
 data/rdoc-generator-fivefish/js/jquery-1.7.1.min.js
-data/rdoc-generator-fivefish/prototype-classpage.html
-data/rdoc-generator-fivefish/prototype.html
 data/rdoc-generator-fivefish/templates/class.tmpl
 data/rdoc-generator-fivefish/templates/file.tmpl
 data/rdoc-generator-fivefish/templates/index.tmpl
