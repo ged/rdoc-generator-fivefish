@@ -7,3 +7,4 @@
 ^ChangeLog$
 ^pkg/
 \.woff$
+data/rdoc-generator-fivefish/(img|fonts|css)/
