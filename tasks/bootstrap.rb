@@ -19,10 +19,12 @@ BOOTSTRAP_CSS             = CSSDIR + 'bootstrap.min.css'
 BOOTSTRAP_RESPONSIVE_LESS = BOOTSTRAP_CSSLIB + 'responsive.less'
 BOOTSTRAP_RESPONSIVE      = CSSDIR + 'bootstrap-responsive.min.css'
 
-BOOTSTRAP_MODULES         = %w[transition popover typeahead modal tooltip]
+# Order: transition alert button carousel collapse dropdown modal tooltip popover scrollspy tab typeahead
+
+BOOTSTRAP_MODULES         = %w[transition modal tooltip popover typeahead]
 BOOTSTRAP_MOD_GLOB        = 'bootstrap-{%s}.js' % BOOTSTRAP_MODULES.join(',')
 BOOTSTRAP_SOURCES         = FileList[ (BOOTSTRAP_JSLIB + BOOTSTRAP_MOD_GLOB).to_s ]
-BOOTSTRAP_JS              = JSDIR + 'bootstrap.js'
+BOOTSTRAP_JS              = JSDIR + 'bootstrap.min.js'
 
 BOOTSTRAP_IMGSRC          = FileList[ (BOOTSTRAP_IMGLIB + '*.png').to_s ]
 BOOTSTRAP_IMAGES          = BOOTSTRAP_IMGSRC.pathmap( (IMGDIR + '%f').to_s )
@@ -33,7 +35,7 @@ BOOTSTRAP_IMAGES          = BOOTSTRAP_IMGSRC.pathmap( (IMGDIR + '%f').to_s )
 #
 
 # Add some targets to the compiled assets
-task :assets => [ BOOTSTRAP_CSS, BOOTSTRAP_RESPONSIVE, *BOOTSTRAP_IMAGES ]
+task :assets => [ BOOTSTRAP_CSS, BOOTSTRAP_RESPONSIVE, BOOTSTRAP_JS, *BOOTSTRAP_IMAGES ]
 
 # Check out the Bootstrap project if it hasn't been already
 directory BOOTSTRAP_BASE.to_s
@@ -68,12 +70,20 @@ end
 CLEAN.include( BOOTSTRAP_RESPONSIVE.to_s )
 
 
-# Catenate the Bootstrap modules used in fivefish into one bootstrap.js
+# Catenate the Bootstrap modules used in fivefish into one bootstrap.min.js
 file BOOTSTRAP_SOURCES => BOOTSTRAP_BASE.to_s
 
-file BOOTSTRAP_JS => [ *BOOTSTRAP_SOURCES ] do |task|
+file BOOTSTRAP_JS => [ JSDIR.to_s, *BOOTSTRAP_SOURCES ] do |task|
 	log( task.name )
-	catenate( task.name, *task.prerequisites )
+	source = ''
+
+	task.prerequisites[1..-1].each do |file|
+		trace "  catenating: #{file}"
+		source << File.read( file, encoding: 'utf-8' )
+	end
+	compressed = Uglifier.compile( source, beautify: $devmode, copyright: true ) << "\n"
+
+	File.write( task.name, compressed, encoding: 'utf-8' )
 end
 CLEAN.include( BOOTSTRAP_JS.to_s )
 

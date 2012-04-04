@@ -7,3 +7,8 @@
 ^ChangeLog$
 ^pkg/
 \.woff$
+data/rdoc-generator-fivefish/css
+data/rdoc-generator-fivefish/fonts
+data/rdoc-generator-fivefish/img
+data/rdoc-generator-fivefish/js/bootstrap\.min\.js
+data/rdoc-generator-fivefish/js/fivefish\.min\.js
