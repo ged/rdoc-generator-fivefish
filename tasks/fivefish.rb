@@ -12,8 +12,6 @@ FIVEFISH_JS      = JSDIR + 'fivefish.min.js'
 FIVEFISH_JS_SRC  = ASSETDIR + 'js/fivefish.js'
 FIVEFISH_SOURCES = FileList[ (ASSETDIR + 'js/jquery.*.js').to_s ]
 
-# Depend on the catenated bootstrap.js built by the bootstrap tasklib
-FIVEFISH_SOURCES.include( (ASSETDIR + 'js/bootstrap.js').to_s )
 
 #
 # Tasks
@@ -33,23 +31,17 @@ end
 CLEAN.include( FIVEFISH_CSS.to_s )
 
 
-file FIVEFISH_JS => [ JSDIR.to_s, FIVEFISH_JS_SRC, *FIVEFISH_SOURCES ] do |task|
+file FIVEFISH_JS => [ JSDIR.to_s, *FIVEFISH_SOURCES, FIVEFISH_JS_SRC ] do |task|
 	log( task.name )
 	source = ''
 
-	task.prerequisites[2..-1].each do |file|
+	task.prerequisites[1..-1].each do |file|
 		trace "  catenating: #{file}"
-		source <<
-			"\n/* -- #{file} --- */\n" <<
-			File.read( file, encoding: 'utf-8' )
+		rawsrc = File.read( file, encoding: 'utf-8' )
+		source << Uglifier.compile( rawsrc, beautify: $devmode, copyright: true ) << "\n"
 	end
-	source <<
-		"\n/* -- #{task.prerequisites[1]} -- */\n" <<
-		File.read( task.prerequisites[1], encoding: 'utf-8' )
 
-	compressed = Uglifier.compile( source, beautify: true, copyright: false )
-
-	File.write( task.name, compressed, encoding: 'utf-8' )
+	File.write( task.name, source, encoding: 'utf-8' )
 end
 CLEAN.include( FIVEFISH_JS.to_s )
 

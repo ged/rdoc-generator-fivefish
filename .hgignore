@@ -8,3 +8,5 @@
 ^pkg/
 \.woff$
 data/rdoc-generator-fivefish/(img|fonts|css)/
+data/rdoc-generator-fivefish/js/bootstrap\.min\.js
+data/rdoc-generator-fivefish/js/fivefish\.min\.js

@@ -18,15 +18,18 @@ function initFivefish() {
 	$(document).ready( onReady );
 }
 
-function onReady() {
-	console.debug( "Ready!" );
-
+function hookTooltips() {
 	$('header.hero-unit h1').popover({ placement: 'right' });
+}
+
+function hookKeyboardShortcuts() {
 	$.each( keyboardShortcuts, function(key, callback) {
 		console.debug( "Registering shortcut: %s -> %o", key, callback );
 		$('body').bind( 'keyup', key, callback );
 	});
+}
 
+function hookSourceToggles() {
 	$( 'div.method header i' ).click( function(e) {
 		var icon = e.target;
 		var method_div = $(icon).parents( 'div' ).get(0);
@@ -35,8 +38,17 @@ function onReady() {
 		console.debug( "Toggling: %o", source );
 		source.fadeToggle();
 	});
+}
 
-	$.getJSON( 'search_index.json' ).success( function(data) {
+function findPathToIndex() {
+	var thisPath = $('script[src*=fivefish]').attr( 'src' );
+	var parts = /^(.*?)\/js\//.exec( thisPath );
+	return parts[1];
+}
+
+function hookSearchInput() {
+	var rel_path = findPathToIndex();
+	$.getJSON( rel_path + '/search_index.json' ).success( function(data) {
 		console.debug( "Setting up search." );
 		searchIndex = data;
 
@@ -45,15 +57,25 @@ function onReady() {
 			return idxobj.name;
 		});
 
-		$( 'input.search-query' ).typeahead({
-			source: items,
-			matcher: function(item) {
-				var re = new RegExp( this.query, 'i' );
-				console.debug( "Matching %s", item );
-				return re.test( item );
-			}
-		});
+		$( 'input.search-query' ).
+			typeahead({
+				source: items,
+				matcher: function(item) {
+					var re = new RegExp( this.query, 'i' );
+					console.debug( "Matching %s", item );
+					return re.test( item );
+				}
+			});
 	});
+}
+
+function onReady() {
+	console.debug( "Ready!" );
+
+	hookTooltips();
+	hookKeyboardShortcuts();
+	hookSourceToggles();
+	hookSearchInput();
 }
 
 
