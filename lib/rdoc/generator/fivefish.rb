@@ -32,8 +32,8 @@ class RDoc::Generator::Fivefish
 
 	### Set up some instance variables
 	def initialize( options )
-		@options        = options
-		$DEBUG_RDOC = true
+		@options    = options
+		$DEBUG_RDOC = $VERBOSE || $DEBUG
 
 		extend( FileUtils::Verbose ) if $DEBUG_RDOC
 		extend( FileUtils::DryRun ) if options.dry_run
@@ -300,7 +300,7 @@ class RDoc::Generator::Fivefish
 
 	### Generate a JSON search index for the quicksearch blank.
 	def generate_search_index
-		out_file = self.output_dir + 'search_index.json'
+		out_file = self.output_dir + 'js/searchindex.js'
 
 		self.debug_msg "Generating search index (%s)." % [ out_file ]
 		index = []
@@ -318,7 +318,10 @@ class RDoc::Generator::Fivefish
 
 		self.debug_msg "  dumping JSON..."
 		ofh = out_file.open( 'w:utf-8', 0644 )
-		Yajl::Encoder.encode( index, ofh, pretty: true, indent: "\t" )
+
+		json = Yajl.dump( index, pretty: true, indent: "\t" )
+
+		ofh.puts( 'var SearchIndex = ', json, ';' )
 	end
 
 

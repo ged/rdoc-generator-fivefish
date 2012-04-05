@@ -40,33 +40,18 @@ function hookSourceToggles() {
 	});
 }
 
-function findPathToIndex() {
-	var thisPath = $('script[src*=fivefish]').attr( 'src' );
-	var parts = /^(.*?)\/js\//.exec( thisPath );
-	return parts[1];
+
+
+function doIncrementalSearch() {
+	$('#incremental-search').
+		modal().
+		success( function() {
+			this.bind( 'keyup', 
+		});
 }
 
-function hookSearchInput() {
-	var rel_path = findPathToIndex();
-	$.getJSON( rel_path + '/search_index.json' ).success( function(data) {
-		console.debug( "Setting up search." );
-		searchIndex = data;
-
-		var items = $(data).map( function(i, idxobj) {
-			console.debug( "Mapping %s.", idxobj.name );
-			return idxobj.name;
-		});
-
-		$( 'input.search-query' ).
-			typeahead({
-				source: items,
-				matcher: function(item) {
-					var re = new RegExp( this.query, 'i' );
-					console.debug( "Matching %s", item );
-					return re.test( item );
-				}
-			});
-	});
+function hookSearchOverlay() {
+	$('#search-button').click( doIncrementalSearch );
 }
 
 function onReady() {
@@ -75,7 +60,7 @@ function onReady() {
 	hookTooltips();
 	hookKeyboardShortcuts();
 	hookSourceToggles();
-	hookSearchInput();
+	hookSearchOverlay();
 }
 
 

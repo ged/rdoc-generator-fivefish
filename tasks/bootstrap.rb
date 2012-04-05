@@ -21,7 +21,7 @@ BOOTSTRAP_RESPONSIVE      = CSSDIR + 'bootstrap-responsive.min.css'
 
 # Order: transition alert button carousel collapse dropdown modal tooltip popover scrollspy tab typeahead
 
-BOOTSTRAP_MODULES         = %w[transition modal tooltip popover typeahead]
+BOOTSTRAP_MODULES         = %w[transition modal tooltip popover]
 BOOTSTRAP_MOD_GLOB        = 'bootstrap-{%s}.js' % BOOTSTRAP_MODULES.join(',')
 BOOTSTRAP_SOURCES         = FileList[ (BOOTSTRAP_JSLIB + BOOTSTRAP_MOD_GLOB).to_s ]
 BOOTSTRAP_JS              = JSDIR + 'bootstrap.min.js'

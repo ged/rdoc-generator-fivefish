@@ -31,6 +31,8 @@
 		defer="defer" charset="utf-8"></script>
 	<script src="[?attr rel_prefix ?]/js/bootstrap.min.js" type="text/javascript"
 		defer="defer" charset="utf-8"></script>
+	<script src="[?attr rel_prefix ?]/js/searchindex.js" type="text/javascript"
+		defer="defer" charset="utf-8"></script>
 	<script src="[?attr rel_prefix ?]/js/fivefish.min.js" type="text/javascript"
 		defer="defer" charset="utf-8" onload="initFivefish()"></script>
 </head>
@@ -69,8 +71,11 @@
 						</li>
 					</ul>
 				</div><!--/.nav-collapse -->
-				<form class="navbar-search pull-right">
-					<input type="text" class="search-query" placeholder="Search">
+				<span class="pull-right">
+					<button id="search-button" class="btn">
+						<i class="icon-search"></i>
+						Search
+					</button>
 				</form>
 			</div>
 		</div>
@@ -128,6 +133,37 @@
 					</tr>
 				</tbody>
 			</table>
+		</div>
+	</div>
+
+	<div class="modal" id="incremental-search">
+		<div class="modal-header">
+			<a class="close" data-dismiss="modal">×</a>
+			<h3>Search Index</h3>
+		</div>
+
+		<div class="modal-body">
+			<section id="search-string">
+				<span id="search-input-label">Searching for:</span>
+				<span id="search-input">inde</span>
+			</section>
+
+			<section class="search-results" id="method-results">
+				<header><h4>Methods</h4></header>
+				<dl></dl>
+			</section>
+			<section class="search-results" id="module-results">
+				<header><h4>Classes/Modules</h4></header>
+				<dl></dl>
+			</section>
+			<section class="search-results" id="file-results">
+				<header><h4>Files</h4></header>
+				<dl></dl>
+			</section>
+		</div>
+
+		<div class="modal-footer">
+			<a href="#" class="btn">Close</a>
 		</div>
 	</div>
 

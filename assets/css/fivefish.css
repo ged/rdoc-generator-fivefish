@@ -8,6 +8,13 @@
  * - Michael Granger <ged@FaerieMUD.org>
  */
 
+@import url(bootstrap.min.css);
+body {
+	font-family: 'Istok Web';
+	padding-top: 45px;
+}
+@import url(bootstrap-responsive.min.css);
+
 @font-face {
 	font-family: 'Istok Web';
 	font-style: normal;
@@ -33,12 +40,6 @@
 	     url('../fonts/IstokWeb-Bold.woff') format('woff');
 }
 
-@import url(bootstrap.min.css);
-body {
-	font-family: 'Istok Web';
-	padding-top: 45px;
-}
-@import url(bootstrap-responsive.min.css);
 
 /* Page header */
 h2.namespace {
@@ -161,6 +162,33 @@ div.method div.method-description p {
 	color: #666;
 }
 
+
+/* Incremental search modal dialog */
+#incremental-search header {
+	background: #eee;
+	border-radius: 3px;
+	padding: 2px;
+}
+#incremental-search #search-string {
+	padding: 0 0 1em;
+}
+#incremental-search #search-input {
+	background-color: rgba(153, 203, 255, 0.64);
+	font: 22px monospace;
+	padding: 1px 4px;
+	display: inline-block;
+}
+#incremental-search #search-input-label {
+	vertical-align: baseline;
+}
+#incremental-search header h4 {
+	font-size: 14px;
+}
+#incremental-search ul {
+	list-style: none;
+	padding: 0;
+	margin: 0 0 1em;
+}
 
 /* @group Source Code */
 
@@ -330,4 +358,5 @@ div.file-metadata {
 	filter: alpha(opacity=30);
 	content: "";
 }
+
 

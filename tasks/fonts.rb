@@ -21,7 +21,7 @@ rule '.woff' => [
 end
 CLEAN.include( WOFF_FONTS )
 
-file LICENSE => LICENSE_SRC do |task|
+file LICENSE => [ LICENSE_SRC, FONTSDIR.to_s ] do |task|
 	cp task.prerequisites.first, task.name, verbose: true
 end
 CLEAN.include( LICENSE )
