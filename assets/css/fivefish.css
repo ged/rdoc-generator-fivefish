@@ -169,16 +169,16 @@ div.method div.method-description p {
 	border-radius: 3px;
 	padding: 2px;
 }
-#incremental-search #search-string {
+#incremental-search .search-string {
 	padding: 0 0 1em;
 }
-#incremental-search #search-input {
+#incremental-search .search-input {
 	background-color: rgba(153, 203, 255, 0.64);
 	font: 22px monospace;
 	padding: 1px 4px;
 	display: inline-block;
 }
-#incremental-search #search-input-label {
+#incremental-search .search-input-label {
 	vertical-align: baseline;
 }
 #incremental-search header h4 {

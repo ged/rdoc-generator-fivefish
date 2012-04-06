@@ -317,6 +317,7 @@ class RDoc::Generator::Fivefish
 		end
 
 		self.debug_msg "  dumping JSON..."
+		out_file.dirname.mkpath
 		ofh = out_file.open( 'w:utf-8', 0644 )
 
 		json = Yajl.dump( index, pretty: true, indent: "\t" )
