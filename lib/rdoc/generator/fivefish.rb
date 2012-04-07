@@ -312,7 +312,8 @@ class RDoc::Generator::Fivefish
 			index << {
 				name:    record[2],
 				link:    record[4],
-				snippet: record[6]
+				snippet: record[6],
+				type:    codeobj.class.name.downcase.sub( /.*::/, '' )
 			}
 		end
 
