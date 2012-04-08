@@ -33,6 +33,7 @@
 
 		searchTimeout: null,
 		data: [],
+		relPrefix: '.',
 
 		/**
 		 * Initialize the component.
@@ -48,6 +49,7 @@
 			this.$file_list = this.$element.find( '.file-search-results dl' );
 			this.options = options;
 			this.data = data;
+			this.relPrefix = $('link[rel=prefix]').attr( 'href' );
 
 			this.$element.
 				on( 'shown',  $.proxy(this.shown,       this) ).
@@ -148,18 +150,18 @@
 			if ( raw_query == '' ) {
 				this.displayMatches( this.data );
 			} else {
-				var query = new RegExp( '.*(' + raw_query + ').*', 'i' );
+				var query = new RegExp( raw_query, 'i' );
 				console.debug( "  pattern is: %s", query );
 				var matches = $.grep( this.data, function(item) {
 					console.debug( "    testing: %s", item.name );
 					return query.test( item.name );
 				});
 
-				this.displayMatches( matches );
+				this.displayMatches( matches, query );
 			}
 		},
 
-		displayMatches: function( matches ) {
+		displayMatches: function( matches, pattern ) {
 			var methods = 0,
 			    mods    = 0,
 				files   = 0;
@@ -206,7 +208,17 @@
 				}
 
 				if ( list ) {
-					$('<dt>').html( item.name ).appendTo( list );
+					var highlighted;
+					if ( pattern ) {
+						highlighted = item.name.replace( pattern, '<span class="highlight">$&</span>' );
+					} else {
+						highlighted = item.name;
+					}
+					$('<a>').
+						attr( 'href', searchbox.relPrefix + '/' + item.link ).
+						html( highlighted ).
+						wrap( '<dt>' ).
+						appendTo( list );
 					$('<dd>').html( item.snippet ).appendTo( list );
 				} else {
 					console.debug( "  no more room for %s '%s'", item['type'], item.name );
@@ -309,5 +321,3 @@ function onReady() {
 	hookSourceToggles();
 	hookSearchOverlay();
 }
-
-
