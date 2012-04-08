@@ -41,7 +41,6 @@ body {
 	     url('../fonts/IstokWeb-Bold.woff') format('woff');
 }
 
-
 /* Page header */
 h2.namespace {
 	color: #666;
@@ -212,6 +211,11 @@ pre.ruby {
 	border-radius: 5px;
 	border-color: transparent;
 	box-shadow: 0 0 8px rgba(25,25,25, 0.2);
+	background-color: #fdf6e3;
+}
+
+code {
+	color: #586e75;
 	background-color: #fdf6e3;
 }
 
