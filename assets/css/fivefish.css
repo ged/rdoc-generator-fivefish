@@ -12,6 +12,7 @@
 body {
 	font-family: 'Istok Web';
 	padding-top: 45px;
+	background: #efefef;
 }
 @import url(bootstrap-responsive.min.css);
 
@@ -127,7 +128,7 @@ dd > p:first-child {
 
 
 /* "Public instance methods" + method list */
-section.methods + section.methods {
+section.methods {
 	margin-top: 3em;
 }
 section.public-methods div.method header i {
@@ -172,11 +173,19 @@ div.method div.method-description p {
 #incremental-search .search-string {
 	padding: 0 0 1em;
 }
+#incremental-search .search-input-label {
+	width: 20%;
+}
 #incremental-search .search-input {
 	background-color: rgba(153, 203, 255, 0.64);
 	font: 22px monospace;
 	padding: 1px 4px;
 	display: inline-block;
+	width: 80%;
+}
+#incremental-search .search-input:empty:after {
+	color: #999;
+	content: "(Start typing to search)";
 }
 #incremental-search .search-input-label {
 	vertical-align: baseline;
@@ -184,10 +193,9 @@ div.method div.method-description p {
 #incremental-search header h4 {
 	font-size: 14px;
 }
-#incremental-search ul {
-	list-style: none;
-	padding: 0;
-	margin: 0 0 1em;
+#incremental-search .search-results dl:empty:after {
+	content: "No matches.";
+	color: #666;
 }
 
 /* @group Source Code */
@@ -196,31 +204,28 @@ div.method-source-code {
 	display: none;
 }
 div.method-source-code pre,
+.description pre,
 pre.ruby {
 	overflow: auto;
-	background: -moz-linear-gradient(90deg, #424242 0%, #363636 100%), #262626;
-	color: #ccc;
+	color: #586e75;
 	padding: 0.5em;
 	border-radius: 5px;
-	background: -webkit-gradient(linear, left bottom, left top, from(#424242), to(#363636)), #262626;
-	border-style: inset;
-	border-width: 3px;
+	border-color: transparent;
+	box-shadow: 0 0 8px rgba(25,25,25, 0.2);
+	background-color: #fdf6e3;
 }
 
-.description pre {
-	margin: 0 0.4em;
-}
-
-.ruby-constant   { color: #7fffd4; background: transparent; }
-.ruby-keyword    { color: #00ffff; background: transparent; }
-.ruby-ivar       { color: #eedd82; background: transparent; }
-.ruby-operator   { color: #00ffee; background: transparent; }
-.ruby-identifier { color: #ffe780; background: transparent; }
-.ruby-node       { color: #ffa07a; background: transparent; }
-.ruby-comment    { color: #d22e2e; background: transparent;	font-style: italic; }
+/* Source highlight colors courtesy of Solarized (http://ethanschoonover.com/solarized) */
+.ruby-constant   { color: #586e75; background: transparent; }
+.ruby-keyword    { color: #1360a9; background: transparent; font-weight: bold; }
+.ruby-ivar       { color: #2aa198; background: transparent; }
+.ruby-operator   { color: #859900; background: transparent; }
+.ruby-identifier { color: #1d544c; background: transparent; }
+.ruby-node       { color: #a73407; background: transparent; }
+.ruby-comment    { color: #dc322f; background: transparent;	font-style: italic; }
 .ruby-regexp     { color: #ffa07a; background: transparent; }
-.ruby-value      { color: #7fffd4; background: transparent; }
-.ruby-string     { color: #ffa963; background-color: rgba(190, 190, 190, 0.15); }
+.ruby-value      { color: #009705; background: transparent; }
+.ruby-string     { color: #657b83; background-color: rgba(190, 190, 190, 0.35); }
 
 /* @end */
 
