@@ -23,10 +23,12 @@ task :assets => [ FIVEFISH_CSS, FIVEFISH_JS ]
 
 file FIVEFISH_CSS => [ CSSDIR.to_s, FIVEFISH_CSS_SRC.to_s ] do |task|
 	log( task.name )
-	less = Less::Parser.new
-	tree = less.parse( File.read(task.prerequisites.last) )
+	# less = Less::Parser.new
+	css = File.read( task.prerequisites.last )
+	# tree = less.parse( css )
 	trace "  %s -> %s" % [ task.prerequisites.first, task.name ]
-	File.write( task.name, tree.to_css(compress: !$devmode), encoding: 'utf-8' )
+	# File.write( task.name, tree.to_css(compress: !$devmode), encoding: 'utf-8' )
+	File.write( task.name, css, encoding: 'utf-8' )
 end
 CLEAN.include( FIVEFISH_CSS.to_s )
 
