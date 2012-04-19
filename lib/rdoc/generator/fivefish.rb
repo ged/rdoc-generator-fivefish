@@ -225,8 +225,11 @@ class RDoc::Generator::Fivefish
 		end
 		self.debug_msg "  using main_page (%s)" % [ mainpage ]
 
-		template.mainpage = mainpage
-		template.synopsis = mainpage.description.scan( %r{(<(h1|p).*?</\2>)}m )[0,3].map( &:first )
+		if mainpage
+			template.mainpage = mainpage
+			template.synopsis = mainpage.description.scan( %r{(<(h1|p).*?</\2>)}m )[0,3].map( &:first )
+		end
+
 		template.all_methods = RDoc::TopLevel.all_classes_and_modules.flat_map do |mod|
 			mod.method_list
 		end.sort
