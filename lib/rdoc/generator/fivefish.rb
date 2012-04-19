@@ -185,7 +185,7 @@ class RDoc::Generator::Fivefish
 	### and cache it.
 	def load_template( name )
 		unless @template_cache.key?( name )
-			@template_cache[ name ] = Inversion::Template.load( name )
+			@template_cache[ name ] = Inversion::Template.load( name, encoding:'utf-8' )
 		end
 
 		return @template_cache[ name ].dup
