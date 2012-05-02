@@ -7,8 +7,8 @@ require 'less'
 # the Bootstrap project.
 
 BOOTSTRAP_BASE            = ASSETDIR + 'bootstrap'
-BOOTSTRAP_VC_URI          = 'ssh://hg@deveiate.org/bootstrap-darkfish'
-BOOTSTRAP_BOOKMARK        = 'darkfish'
+BOOTSTRAP_VC_URI          = 'ssh://hg@deveiate.org/bootstrap-fivefish'
+BOOTSTRAP_BOOKMARK        = 'fivefish'
 BOOTSTRAP_CSSLIB          = BOOTSTRAP_BASE + 'less'
 BOOTSTRAP_JSLIB           = BOOTSTRAP_BASE + 'js'
 BOOTSTRAP_IMGLIB          = BOOTSTRAP_BASE + 'img'
