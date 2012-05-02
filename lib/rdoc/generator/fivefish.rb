@@ -1,7 +1,5 @@
 # -*- mode: ruby; ruby-indent-level: 4; tab-width: 4 -*-
 
-require 'pry'
-
 gem 'rdoc', '~> 3.12'
 
 require 'yajl'
@@ -255,7 +253,6 @@ class RDoc::Generator::Fivefish
 			out_file = self.output_dir + klass.path
 			out_file.dirname.mkpath
 
-			# binding.pry
 			template.klass = klass
 
 			layout.contents = template
