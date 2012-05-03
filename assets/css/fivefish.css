@@ -178,12 +178,15 @@ section.methods a[name] {
 /* Individual method */
 div.method {}
 a:target + div.method {
-	border: 2px solid #666;
-	border-radius: 2px;
-	background: rgba( 255,255,255, 0.7 );
-	-moz-box-shadow: 0 0 3px rgba(0, 0, 0, 0.35);
-	-webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.35);
-	box-shadow: 0 0 3px rgba(0, 0, 0, 0.35);
+	-moz-box-shadow: 0 0 13px rgba(0, 0, 0, 0.35);
+	-webkit-box-shadow: 0 0 13px rgba(0, 0, 0, 0.35);
+	box-shadow: 0 0 13px rgba(0, 0, 0, 0.35);
+	margin: 1em -3em;
+	padding: 0 2em;
+	background-color: rgba(247, 244, 200, 0.7);
+	transition: all 2s ease-in-out;
+	-webkit-transition: all 0.25s ease-in-out;
+	-moz-transition: all 0.25s ease-in-out;
 }
 div.method + div.method {
 	margin-top: 1em;
@@ -194,7 +197,6 @@ section.constants-list dt,
 section.attributes-list dt {
 	font-weight: bold;
 	font-size: 1.2em;
-	background: #eee;
 }
 div.method header span.method-args {
 	color: #666;
@@ -374,3 +376,6 @@ div.dropdown-menu {
 }
 
 
+footer {
+	padding: 1em 0 3em;
+}
