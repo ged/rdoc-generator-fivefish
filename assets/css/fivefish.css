@@ -41,6 +41,34 @@ body {
 	     url('../fonts/IstokWeb-Bold.woff') format('woff');
 }
 
+ul.typeahead.dropdown-menu {
+	right: 0;
+}
+ul.typeahead.dropdown-menu li {
+	border-bottom: 1px solid #eee;
+	padding: 2px 4px;
+}
+ul.typeahead.dropdown-menu li:last-child {
+	border: none;
+}
+ul.typeahead.dropdown-menu .search-item-name {
+	font-weight: 600;
+}
+ul.typeahead.dropdown-menu .search-item-rank {
+	font-size: 9px;
+	padding: 0 4px;
+	color: #ccc;
+}
+ul.typeahead.dropdown-menu i {
+	padding: 0 2px;
+}
+ul.typeahead.dropdown-menu .search-item-snippet {
+	overflow: hidden;
+	display: block;
+	margin: 0 14px;
+}
+
+
 /* Page header */
 h2.namespace {
 	color: #666;
@@ -140,9 +168,22 @@ section.protected-methods div.method header i {
 }
 
 
+section.methods a[name] {
+	position: relative;
+	top: -35px;
+	display: none;
+}
+
 
 /* Individual method */
-div.method {
+div.method {}
+a:target + div.method {
+	border: 2px solid #666;
+	border-radius: 2px;
+	background: rgba( 255,255,255, 0.7 );
+	-moz-box-shadow: 0 0 3px rgba(0, 0, 0, 0.35);
+	-webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.35);
+	box-shadow: 0 0 3px rgba(0, 0, 0, 0.35);
 }
 div.method + div.method {
 	margin-top: 1em;
@@ -162,40 +203,6 @@ div.method div.method-description p {
 	color: #666;
 }
 
-
-/* Incremental search modal dialog */
-#incremental-search header {
-	background: #eee;
-	border-radius: 3px;
-	padding: 2px;
-}
-#incremental-search .search-string {
-	padding: 0 0 1em;
-}
-#incremental-search .search-input-label {
-	width: 20%;
-}
-#incremental-search .search-input {
-	background-color: rgba(153, 203, 255, 0.64);
-	font: 22px monospace;
-	padding: 1px 4px;
-	display: inline-block;
-	width: 80%;
-}
-#incremental-search .search-input:empty:after {
-	color: #999;
-	content: "(Start typing to search)";
-}
-#incremental-search .search-input-label {
-	vertical-align: baseline;
-}
-#incremental-search header h4 {
-	font-size: 14px;
-}
-#incremental-search .search-results dl:empty:after {
-	content: "No matches.";
-	color: #666;
-}
 
 /* @group Source Code */
 
@@ -251,23 +258,21 @@ div.file-metadata {
  by Cory LaViska
  http://labs.abeautifulsite.net/jquery-dropdown/
  */
-.dropdown-menu {
+div.dropdown-menu {
 	font: 14px sans-serif;
 	position: absolute;
 	z-index: 9999999;
 	display: none;
+	background: white;
 }
 
-.dropdown-menu UL {
+.dropdown-menu ul {
 	min-width: 160px;
 	list-style: none;
 	background: #FFF;
-	border: solid 1px #DDD;
-	border: solid 1px rgba(0, 0, 0, .2);
 	border-radius: 6px;
-	box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
 	overflow: visible;
-	padding: 4px 0;
+	padding: 0;
 	margin: 0;
 }
 

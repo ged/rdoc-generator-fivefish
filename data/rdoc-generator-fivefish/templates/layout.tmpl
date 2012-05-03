@@ -74,10 +74,11 @@
 					</ul>
 				</div><!--/.nav-collapse -->
 				<span class="pull-right">
-					<button id="search-button" class="btn">
-						<i class="icon-search"></i>
-						Search
-					</button>
+					<form class="navbar-search">
+						<input type="hidden" id="navbar-search-target" value="" />
+						<input type="text" class="search-query" value=""
+							placeholder="Method, Class, or Filename" />
+					</form>
 				</form>
 			</div>
 		</div>
@@ -115,59 +116,6 @@
 			file.page_name ?></a></li>
 	<?end for ?>
 	</ul>
-	</div>
-
-	<!-- Keyboard shortcut help -->
-	<div class="modal" id="shortcut-help">
-		<div class="modal-header">
-			<a class="close" data-dismiss="modal">×</a>
-			<h3>Keyboard Shortcuts</h3>
-		</div>
-		<div class="modal-body">
-			<table>
-				<tbody>
-					<tr>
-						<th>/</th>
-						<td>Search</td>
-					</tr>
-					<tr>
-						<th>?</th>
-						<td>Show this help</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-	</div>
-
-	<div class="modal" id="incremental-search">
-		<div class="modal-header">
-			<a class="close" data-dismiss="modal">×</a>
-			<h3>Search Index</h3>
-		</div>
-
-		<div class="modal-body">
-			<section class="search-string">
-				<span class="search-input-label">Searching for:</span>
-				<span class="search-input"></span>
-			</section>
-
-			<section class="search-results method-search-results">
-				<header><h4>Methods</h4></header>
-				<dl></dl>
-			</section>
-			<section class="search-results module-search-results">
-				<header><h4>Classes/Modules</h4></header>
-				<dl></dl>
-			</section>
-			<section class="search-results file-search-results">
-				<header><h4>Files</h4></header>
-				<dl></dl>
-			</section>
-		</div>
-
-		<div class="modal-footer">
-			<a href="#" class="btn">Close</a>
-		</div>
 	</div>
 
 </body>

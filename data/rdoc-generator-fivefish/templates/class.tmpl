@@ -92,7 +92,8 @@
 				</header>
 
 				<?for meth in methodlist ?>
-				<div id="<?call meth.aref ?>" class="method[?if meth.is_alias_for
+				<a name="[?call meth.aref ?]">anchor</a>
+				<div id="<?call meth.aref ?>-doc" class="method[?if meth.is_alias_for
 					?] method-alias[?end if ?]">
 
 					<header>

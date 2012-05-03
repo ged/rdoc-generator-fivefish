@@ -4,276 +4,38 @@
  *
  * @author Michael Granger <ged@FaerieMUD.org>
  *
+ * Copyright © 2012, Michael Granger
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * * Redistributions of source code must retain the above copyright notice,
+ *   this list of conditions and the following disclaimer.
+ *
+ * * Redistributions in binary form must reproduce the above copyright notice,
+ *   this list of conditions and the following disclaimer in the documentation
+ *   and/or other materials provided with the distribution.
+ *
+ * * Neither the name of the author/s, nor the names of the project's
+ *   contributors may be used to endorse or promote products derived from this
+ *   software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
 */
 
-
-/**
- * A Bootstrap component for the index search interface. Inherits from Bootstrap's
- * modal component, and borrows a bunch of code from the typeahead component.
- *
- * @version $Rev$
- * @requires bootstrap.modal.js
- */
-(function( $ ) {
-
-	"use strict"
-
-	/**
-	 * @constructor
-	 */
-	var SearchBox = function( element, data, options ) {
-		this.init( element, data, options );
-	};
-
-
-	/* Subclass the Bootstrap Modal component */
-	SearchBox.prototype = $.extend( {}, $.fn.modal.Constructor.prototype, {
-
-		constructor: SearchBox,
-
-		searchTimeout: null,
-		data: [],
-		relPrefix: '.',
-
-		/**
-		 * Initialize the component.
-		 * @param {Element} element The DOM element that will be used for the quicksearch.
-		 * @param {Array}   data    The RDoc search index; an Array of Objects.
-		 * @param {Object}  options Configuration options. Currently ununsed.
-		 */
-		init: function( element, data, options ) {
-			this.$element = $(element);
-			this.$input = this.$element.find( '.search-input' );
-			this.$meth_list = this.$element.find( '.method-search-results dl' );
-			this.$mod_list = this.$element.find( '.module-search-results dl' );
-			this.$file_list = this.$element.find( '.file-search-results dl' );
-			this.options = options;
-			this.data = data;
-			this.relPrefix = $('link[rel=prefix]').attr( 'href' );
-
-			this.$element.
-				on( 'shown',  $.proxy(this.shown,       this) ).
-				on( 'hide',   $.proxy(this.hided,       this) ).
-				on( 'search', $.proxy(this.startSearch, this) ).
-				on( 'clear',  $.proxy(this.clearSearch, this) );
-		},
-
-		/**
-		 * Hook up events while the searchbox is visible.
-		 * @private
-		 */
-		shown: function () {
-			console.debug( "Listening for keyboard input." );
-			$(document).
-				on( 'keypress', $.proxy(this.keypress, this) ).
-				on( 'keyup',    $.proxy(this.keyup, this) );
-
-			if ($.browser.webkit || $.browser.msie) {
-				$(document).on( 'keydown', $.proxy(this.keypress, this) );
-			}
-		},
-
-		hided: function( e ) {
-			console.debug( "Done listening for keyboard input." );
-			$(document).off( 'keypress keyup keydown' );
-		},
-
-		keyup: function ( e ) {
-			var key = e.which;
-			var shifted = e.shiftKey;
-			console.debug( "Keycode: %d, shifted: %o", key, shifted );
-
-			// Control keys
-			if ( e.ctrlKey ) {
-				switch( key ) {
-					// ctrl+u: clear the search string
-					case 85:
-						this.$element.trigger( 'clear' );
-						break;
-				}
-			}
-
-			// Append numbers, letters, and spaces to the search string
-			else if ( key >= 65 && key <= 90 || key == 32 || key >= 48 && key <=57 ) {
-				var text = String.fromCharCode( key );
-				if ( !shifted ) text = text.toLowerCase();
-
-				this.$input.append( text );
-				this.$element.trigger( 'search' );
-			}
-
-			else {
-				switch( key ) {
-				// Esc
-				case 27:
-					this.hide();
-					break;
-
-				// Backspace
-				case 8:
-					this.$input.html( this.$input.html().slice(0,-1) );
-					this.$element.trigger( 'search' );
-					break;
-				}
-			}
-
-			e.stopPropagation();
-			e.preventDefault();
-		},
-
-		keypress: function ( e ) {
-			console.debug( "Keypress event: %o", e );
-		},
-
-		clearSearch: function() {
-			console.debug( "Clearing the search input." );
-			this.$input.html('');
-			this.$element.trigger( 'search' );
-		},
-
-		startSearch: function( e ) {
-			var target = this;
-			if ( this.searchTimeout ) {
-				console.debug( "Interrupting a previous search." );
-				clearTimeout( this.searchTimeout );
-			}
-			console.debug( "Scheduling a search..." );
-			this.searchTimeout = setTimeout(function () {
-				target.search();
-			}, 500 );
-		},
-
-		search: function() {
-			var raw_query = this.$input.html();
-			console.debug( "Searching for: '%s'!", raw_query );
-
-			if ( raw_query == '' ) {
-				this.displayMatches( this.data );
-			} else {
-				var query = new RegExp( raw_query, 'i' );
-				console.debug( "  pattern is: %s", query );
-				var matches = $.grep( this.data, function(item) {
-					console.debug( "    testing: %s", item.name );
-					return query.test( item.name );
-				});
-
-				this.displayMatches( matches, query );
-			}
-		},
-
-		displayMatches: function( matches, pattern ) {
-			var methods = 0,
-			    mods    = 0,
-				files   = 0;
-			var maxItems = 5; // :TODO: Get this from the options?
-			var list;
-			var searchbox = this;
-
-			// Remove previous results
-			this.$element.find( '.search-results dl' ).empty();
-
-			// Add results until the results are full or we run out of items
-			console.debug( "Sorting %d matching items...", matches.length );
-			$.each( matches, function(idx, item) {
-				list = null;
-
-				switch( item['type'] ) {
-					case "anymethod":
-						if ( methods < maxItems ) {
-							console.debug( "  adding method '%s'", item.name );
-							list = searchbox.$meth_list;
-							methods++;
-						}
-						break;
-
-					case "normalclass":
-					case "normalmodule":
-						if ( mods < maxItems ) {
-							console.debug( "  adding mod '%s'", item.name );
-							list = searchbox.$mod_list;
-							mods++;
-						}
-						break;
-
-					case "toplevel":
-						if ( files < maxItems ) {
-							console.debug( "  adding file '%s'", item.name );
-							list = searchbox.$file_list;
-							files++;
-						}
-						break;
-
-					default:
-						console.debug( "ignoring unknown item '%s'", item['type'] );
-				}
-
-				if ( list ) {
-					var highlighted;
-					if ( pattern ) {
-						highlighted = item.name.replace( pattern, '<span class="highlight">$&</span>' );
-					} else {
-						highlighted = item.name;
-					}
-					$('<a>').
-						attr( 'href', searchbox.relPrefix + '/' + item.link ).
-						html( highlighted ).
-						wrap( '<dt>' ).
-						appendTo( list );
-					$('<dd>').html( item.snippet ).appendTo( list );
-				} else {
-					console.debug( "  no more room for %s '%s'", item['type'], item.name );
-				}
-			});
-
-		},
-
-		blur: function (e) {
-			var searchbox = this;
-			setTimeout( function () { searchbox.hide() }, 150 );
-		},
-
-		click: function (e) {
-			e.stopPropagation();
-			e.preventDefault();
-			this.select();
-		}
-
-
-	});
-
-
-	/* Plugin Definition */
-
-	$.fn.searchbox = function( data, option ) {
-		return this.each(function() {
-			var $this = $( this );
-			var box = $this.data( 'searchbox' );
-			var boxdata = typeof data == 'object' ? data : [];
-			var options = $.extend( {},
-				$.fn.modal.defaults,
-				$this.data(),
-				typeof option == 'object' && option );
-
-			if (!box) {
-				console.debug( "Creating a new searchbox for data: %s", typeof boxdata );
-				box = new SearchBox( this, boxdata, options );
-				$this.data( 'searchbox', box );
-			}
-
-			/* Facilitate calls like: $(sel).searchbox( 'hide' ) */
-			if ( typeof data == 'string' ) box[ data ]();
-		});
-	};
-
-	$.fn.searchbox.Constructor = SearchBox;
-	$.fn.searchbox.defaults = $.extend({}, $.fn.modal.defaults);
-
-})( window.jQuery );
-
-var keyboardShortcuts = {
-	'/': function(e) { $('#incremental-search').searchbox('show'); },
-	'shift+/': function(e) { $('#shortcut-help').modal(); }
-}
+const MatchThreshold = 0.5;
+const RankFuzziness = 0.5;
 
 function initFivefish() {
 	console.debug( "Loaded. Waiting for DOM to be ready." );
@@ -282,13 +44,6 @@ function initFivefish() {
 
 function hookTooltips() {
 	$('header.hero-unit h1').popover({ placement: 'right' });
-}
-
-function hookKeyboardShortcuts() {
-	$.each( keyboardShortcuts, function(key, callback) {
-		console.debug( "Registering shortcut: %s -> %o", key, callback );
-		$('body').bind( 'keyup', key, callback );
-	});
 }
 
 function hookSourceToggles() {
@@ -302,14 +57,111 @@ function hookSourceToggles() {
 	});
 }
 
-function doIncrementalSearch() {
+function makeRankingTerm( item ) {
+	return item.name.replace( /.*::/, '' ).toLowerCase();
 }
 
-function hookSearchOverlay() {
-	console.debug( "Setting up searchbox" );
-	$('#incremental-search').searchbox( SearchIndex );
-	$('#search-button').click( function() {
-		$('#incremental-search').searchbox( 'show' );
+function matchIndexItem( item ) {
+	var abbrev = this.query;
+	var term = makeRankingTerm( item );
+	var score = term.score( abbrev, RankFuzziness );
+
+	if ( score >= MatchThreshold ) {
+		// console.debug( "Matched item %s (%s=%f)", item.name, term, score );
+		return true;
+	} else {
+		// console.debug( "No match for item %s (%s=%f)", item.name, term, score );
+		return false;
+	}
+}
+
+function sortIndexItems( items ) {
+	var abbrev = this.query;
+
+	return items.sort( function(a,b) {
+		var termA = makeRankingTerm( a );
+		var termB = makeRankingTerm( b );
+		var rankA = termA.score( abbrev, RankFuzziness );
+		var rankB = termB.score( abbrev, RankFuzziness );
+
+		if ( rankA > rankB ) {
+			return -1;
+		} else if ( rankA < rankB ) {
+			return 1;
+		}
+		return 0;
+	});
+}
+
+function pickItemIcon( item ) {
+	var icon;
+
+	switch( item.type ) {
+	case "anymethod":
+	case "metamethod":
+		icon = "plus-sign";
+		break;
+	case "normalmodule":
+		icon = "gift";
+		break;
+	case "normalclass":
+		icon = 'briefcase'
+		break;
+	case "toplevel":
+		icon = 'file';
+		break;
+	default:
+		icon = 'question-sign';
+	}
+
+	return icon;
+}
+
+//{
+//		"name": "save_session_data",
+//		"link": "Strelka/Session/Db.html#method-c-save_session_data",
+//		"snippet": "<p>Save the given <code>data</code> associated with the\n<code>session_id</code> to the DB.\n",
+//		"type": "anymethod"
+//},
+function highlightMatchingItem( item ) {
+	var snippet = item.snippet.replace(/<\/?p>/g, '').replace( /\.(.|\n)*/, '.' );
+	var icon = pickItemIcon( item );
+	var term = makeRankingTerm( item );
+	var rank = term.score( this.query, RankFuzziness );
+
+	var html =
+		'<span class="search-item">' +
+			'<i class="icon-' + icon + '"></i>' +
+			'<span class="search-item-name">' + item.name + '</span>' +
+			'<span class="search-item-rank">' + ( rank * 10 ).toFixed() + '</span>' +
+			'<br />' +
+			'<span class="search-item-snippet">' + snippet + "</span>" +
+		'</span>';
+
+	var elem = $(html);
+	elem.data( 'searchitem', item );
+
+	return elem;
+}
+
+function updateSearchInput( itemstr ) {
+	var item = this.$menu.find('.active .search-item').data( 'searchitem' );
+	$('#navbar-search-target').val( item.link );
+	return item.name;
+}
+
+function hookSearchForm() {
+	$('.navbar-search .search-query').typeahead({
+		source: SearchIndex,
+		matcher: matchIndexItem,
+		sorter: sortIndexItems,
+		updater: updateSearchInput,
+		highlighter: highlightMatchingItem
+	}).change( function() {
+		var prefix = $('link[rel=prefix]').attr('href');
+		var rel_link = $('#navbar-search-target').val();
+
+		window.location.assign( prefix + '/' + rel_link );
 	});
 }
 
@@ -317,7 +169,6 @@ function onReady() {
 	console.debug( "Ready!" );
 
 	hookTooltips();
-	hookKeyboardShortcuts();
 	hookSourceToggles();
-	hookSearchOverlay();
+	hookSearchForm();
 }

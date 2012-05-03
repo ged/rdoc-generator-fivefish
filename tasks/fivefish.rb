@@ -11,7 +11,7 @@ FIVEFISH_CSS_SRC = ASSETDIR + 'css/fivefish.css'
 FIVEFISH_JS      = JSDIR + 'fivefish.min.js'
 FIVEFISH_JS_SRC  = ASSETDIR + 'js/fivefish.js'
 FIVEFISH_SOURCES = FileList[ (ASSETDIR + 'js/jquery.*.js').to_s ]
-
+FIVEFISH_SOURCES.include( (ASSETDIR + 'js/stringscore.js').to_s )
 
 #
 # Tasks
