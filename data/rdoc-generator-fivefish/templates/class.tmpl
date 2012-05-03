@@ -21,6 +21,32 @@
 			<span class="label"><?call klass.type ?></span>
 		</header>
 
+		<section class="module-relations">
+			<dl>
+				<?unless klass.module? ?>
+				<dt>Superclass</dt>
+				<?if klass.superclass.respond_to?(:path) ?>
+				<dd class="superclass"><a href="[?attr rel_prefix ?]/[?call klass.superclass.path ?]"><?call
+					klass.superclass.full_name ?></a></dd>
+				<?else?>
+				<dd class="superclass"><?call klass.superclass ?></dd>
+				<?end if ?>
+				<?end unless ?>
+
+				<?unless klass.includes.empty? ?>
+				<dt>Included Modules</dt>
+				<?for inc in klass.includes ?>
+				<?if inc.module.respond_to?(:path) ?>
+				<dd class="include"><a href="[?call klass.aref_to(inc.module.path) ?]"><?call
+					inc.module.full_name ?></a></dd>
+				<?else ?>
+				<dd class="include"><?call inc.name ?></dd>
+				<?end if ?>
+				<?end for ?>
+				<?end unless ?>
+			</dl>
+		</section>
+
 		<section class="description">
 			<?call klass.description ?>
 		</section>
