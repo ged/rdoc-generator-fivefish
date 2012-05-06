@@ -126,8 +126,16 @@ section.description h2 {
 section.documentation-section {
 	margin-top: 3em;
 }
+section.documentation-section > header {
+	position: relative;
+	background-color: #dadada;
+	padding-left: 1em;
+	border-radius: 0.5em;
+}
 section .section-click-top {
-	float: right;
+	position: absolute;
+	top: 0;
+	right: 2em;
 }
 
 dl.rdoc-list {
