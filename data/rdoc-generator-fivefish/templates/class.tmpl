@@ -123,14 +123,15 @@
 					?] method-alias[?end if ?]">
 
 					<header>
-						<i class="icon-generic"></i>
 					<?if meth.call_seq ?>
 						<?for call_seq, i in meth.call_seq.strip.split("\n") ?>
+						<i class="icon-generic"></i>
 						<span class="method-callseq">
 							<?escape call_seq.strip.gsub( /^\w+\./m, '').gsub(/[-=]>/, '&rarr;') ?>
-						</span>
+						</span><br />
 						<?end for ?>
 					<?else ?>
+						<i class="icon-generic"></i>
 						<span class="method-name"><?escape meth.name ?></span><span 
 							class="method-args"><?escape meth.param_seq ?></span>
 					<?end if ?>
