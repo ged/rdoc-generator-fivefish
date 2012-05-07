@@ -331,8 +331,8 @@ class RDoc::Generator::Fivefish
 	def get_indexable_objects
 		objs = []
 
-		objs += @classes.uniq.select( &:document_self_or_methods )
-		objs += @classes.uniq.map( &:method_list ).flatten
+		objs += @classes.select( &:document_self_or_methods ).uniq( &:path )
+		objs += @classes.map( &:method_list ).flatten.uniq( &:path )
 		objs += @files.select( &:text? )
 
 		return objs

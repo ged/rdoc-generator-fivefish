@@ -127,7 +127,7 @@
 						<?for call_seq, i in meth.call_seq.strip.split("\n") ?>
 						<i class="icon-generic"></i>
 						<span class="method-callseq">
-							<?escape call_seq.strip.gsub( /^\w+\./m, '').gsub(/[-=]>/, '&rarr;') ?>
+							<?call call_seq.strip.gsub( /^\w+\./m, '').gsub(/[-=]>/, '&rarr;') ?>
 						</span><br />
 						<?end for ?>
 					<?else ?>
