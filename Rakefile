@@ -70,7 +70,7 @@ hoespec = Hoe.spec( PACKAGE_NAME )  do
 
 	self.developer 'Michael Granger', 'ged@FaerieMUD.org'
 
-	self.dependency 'inversion', '~> 0.8'
+	self.dependency 'inversion', '~> 0.10'
 	self.dependency 'yajl-ruby', '~> 1.1'
 	self.dependency 'rdoc',      '~> 3.12'
 
@@ -90,7 +90,7 @@ task :default => :assets
 task :check_manifest => :assets
 
 # Ensure the specs pass before checking in
-task 'hg:precheckin' => [:check_history, :check_manifest, :spec]
+task 'hg:precheckin' => [:check_history, :check_manifest]
 
 # Create the data directories on demand
 directory CSSDIR.to_s

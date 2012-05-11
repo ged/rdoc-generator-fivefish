@@ -1,4 +1,5 @@
 .autotest
+ChangeLog
 History.rdoc
 Manifest.txt
 README.rdoc
