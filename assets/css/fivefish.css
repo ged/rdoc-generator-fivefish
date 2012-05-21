@@ -92,6 +92,14 @@ div.container > header.hero-unit h1 {
 	text-shadow: 1px 1px 3px rgba( 25,25,25, 0.2 );
 }
 
+h3 {
+	font-size: 1.75em;
+	padding: 0.5em;
+	background-color: #c9c9c9;
+	border-radius: 5px;
+}
+
+
 /* Indexes */
 section#indexes {
 	max-height: 460px;
