@@ -209,8 +209,10 @@ section.attributes-list dt {
 div.method header span.method-args {
 	color: #666;
 }
-div.method div.method-description p {
+div.method div.method-description p,
+div.aliases {
 	color: #666;
+	margin-bottom: 0.75em;
 }
 
 
