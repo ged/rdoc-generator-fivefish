@@ -165,10 +165,18 @@ function hookSearchForm() {
 	});
 }
 
+
+function onSearchKey( e ) {
+	$('input.search-query').focus();
+}
+
 function onReady() {
 	console.debug( "Ready!" );
 
 	hookTooltips();
 	hookSourceToggles();
 	hookSearchForm();
+	$(document).bind( 'keydown', 'ctrl+/', onSearchKey );
 }
+
+

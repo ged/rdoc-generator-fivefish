@@ -7,13 +7,9 @@
 
 A(nother) HTML(5) generator for RDoc.
 
-The goals for this one:
-
-* Update Darkfish's semantic structure for HTML5
-* Clean up the layout with a 960 grid
-* Devote more real estate to docs rather than the index
-* Demonstrate themability of RDoc in general via the --stylesheet option
-* Make the output validate again.
+It uses Twitter Bootstrap for the pretty, doesn't take up valuable horizontal real
+estate space with indexes and stuff, and has Quicksilver[http://qsapp.com/]-like
+search built in.
 
 
 == Installation
