@@ -186,8 +186,8 @@ section.protected-methods div.method header i {
 
 section.methods a[name] {
 	position: relative;
-	top: -35px;
-	display: none;
+	top: -135px;
+	visibility: hidden;
 }
 
 
