@@ -92,13 +92,6 @@ div.container > header.hero-unit h1 {
 	text-shadow: 1px 1px 3px rgba( 25,25,25, 0.2 );
 }
 
-h3 {
-	font-size: 1.75em;
-	padding: 0.5em;
-	background-color: #c9c9c9;
-	border-radius: 5px;
-}
-
 
 /* Indexes */
 section#indexes {
@@ -125,10 +118,11 @@ section.description p {
 section.description p + p {
 	margin: 1em 0;
 }
-section.description h2 {
+section.description h2,
+section.description h3 {
 	margin-top: 1.5em;
+	margin-bottom: 0;
 }
-
 
 /* :section: groups */
 section.documentation-section {
@@ -173,6 +167,12 @@ dd > p:first-child {
 /* "Public instance methods" + method list */
 section.methods {
 	margin-top: 3em;
+}
+section.methods > header {
+	font-size: 1.75em;
+	padding: 0.5em;
+	background-color: #c9c9c9;
+	border-radius: 5px;
 }
 section.public-methods div.method header i {
 	background-position:0 -96px;
