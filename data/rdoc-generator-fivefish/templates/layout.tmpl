@@ -101,7 +101,7 @@
 	<!-- Class dropdown menu -->
 	<div id="class-dropdown" class="dropdown-menu has-scroll">
 	<ul>
-	<?for index_class in modsort.select( &:documented? ) ?>
+	<?for index_class in modsort.select( &:documented? ).uniq {|c| c.path } ?>
 		<li><a href="[?attr rel_prefix ?]/[?call index_class.path ?]"><?call 
 			index_class.full_name ?></a></li>
 	<?end for ?>
