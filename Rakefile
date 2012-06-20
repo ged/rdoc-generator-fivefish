@@ -75,7 +75,7 @@ hoespec = Hoe.spec( PACKAGE_NAME )  do
 	self.dependency 'rdoc',      '~> 3.12'
 
 	self.dependency 'uglifier',  '~> 1.2', :developer
-	self.dependency 'less',      '~> 2.1', :developer
+	self.dependency 'less',      '~> 2.2', :developer
 
 	self.spec_extras[:licenses] = ["BSD"]
 	self.require_ruby_version( '>=1.9.3' )
