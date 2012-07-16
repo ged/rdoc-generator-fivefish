@@ -146,6 +146,7 @@ function highlightMatchingItem( item ) {
 
 function updateSearchInput( itemstr ) {
 	var item = this.$menu.find('.active .search-item').data( 'searchitem' );
+	console.debug( "Updating search element for item %s", itemstr );
 	$('#navbar-search-target').val( item.link );
 	return item.name;
 }
@@ -157,11 +158,15 @@ function hookSearchForm() {
 		sorter: sortIndexItems,
 		updater: updateSearchInput,
 		highlighter: highlightMatchingItem
-	}).change( function() {
+	}).change( function(e) {
 		var prefix = $('link[rel=prefix]').attr('href');
 		var rel_link = $('#navbar-search-target').val();
 
-		window.location.assign( prefix + '/' + rel_link );
+		if ( rel_link != '' ) {
+			window.location.assign( prefix + '/' + rel_link );
+		} else {
+			console.error( "Couldn't find selected element for change event %o.", e );
+		}
 	});
 }
 
