@@ -112,6 +112,7 @@ section#indexes a .method-parent {
 
 /* Class/module description */
 section.description p {
+	line-height: 1.67em;
 	font-size: 1.2em;
 	margin: 1em 0;
 }
