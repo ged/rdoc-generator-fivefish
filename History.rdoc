@@ -1,4 +1,4 @@
-== v0.0.1 [2012-03-11] Michael Granger <ged@FaerieMUD.org>
+== v0.0.1 [2012-09-12] Michael Granger <ged@FaerieMUD.org>
 
 Initial release.
 
