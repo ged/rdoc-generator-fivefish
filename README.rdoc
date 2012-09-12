@@ -7,9 +7,9 @@
 
 A(nother) HTML(5) generator for RDoc.
 
-It uses Twitter Bootstrap for the pretty, doesn't take up valuable horizontal real
-estate space with indexes and stuff, and has Quicksilver[http://qsapp.com/]-like
-search built in.
+It uses {Twitter Bootstrap}[http://twitter.github.com/bootstrap/] for the
+pretty, doesn't take up valuable horizontal real estate space with indexes
+and stuff, and has a QuickSilver-like incremental searching.
 
 
 == Installation
@@ -32,7 +32,7 @@ You'll need a few tools to make a gem from source:
 == Contributing
 
 You can check out the current development source
-{with Mercurial}[http://repo.deveiate.org/Fivefish], or if you prefer Git, via the
+{with Mercurial}[http://bitbucket.org/ged/fivefish], or if you prefer Git, via the
 project's {Github mirror}[https://github.com/ged/Fivefish-RDoc].
 
 After checking out the source, run:
@@ -73,5 +73,21 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+Fivefish makes extensive use of the Twitter Bootstrap framework, which
+is used under the following license terms:
+
+Copyright 2012 Twitter, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this work except in compliance with the License.
+You may obtain a copy of the License in the LICENSE file, or at:
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 
 
