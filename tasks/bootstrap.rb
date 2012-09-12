@@ -40,7 +40,7 @@ task :assets => [ BOOTSTRAP_CSS, BOOTSTRAP_RESPONSIVE, BOOTSTRAP_JS, *BOOTSTRAP_
 # Check out the Bootstrap project if it hasn't been already
 directory BOOTSTRAP_BASE.to_s
 task BOOTSTRAP_BASE do |t|
-	sh 'hg', 'qclone', BOOTSTRAP_VC_URI.to_s, BOOTSTRAP_BASE.to_s
+	sh 'hg', 'clone', BOOTSTRAP_VC_URI.to_s, BOOTSTRAP_BASE.to_s
 	Dir.chdir( t.name ) do
 		sh 'hg', 'up', BOOTSTRAP_BOOKMARK
 	end
