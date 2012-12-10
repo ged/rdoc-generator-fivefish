@@ -72,7 +72,7 @@ hoespec = Hoe.spec( PACKAGE_NAME )  do
 
 	self.dependency 'inversion', '~> 0.10'
 	self.dependency 'yajl-ruby', '~> 1.1'
-	self.dependency 'rdoc',      '~> 3.12'
+	self.dependency 'rdoc',      '~> 4.0'
 
 	self.dependency 'uglifier',  '~> 1.2', :developer
 	self.dependency 'less',      '~> 2.2', :developer

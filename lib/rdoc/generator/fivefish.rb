@@ -1,6 +1,6 @@
 # -*- mode: ruby; ruby-indent-level: 4; tab-width: 4 -*-
 
-gem 'rdoc', '~> 3.12'
+gem 'rdoc'
 
 require 'yajl'
 require 'inversion'
@@ -29,7 +29,8 @@ class RDoc::Generator::Fivefish
 
 
 	### Set up some instance variables
-	def initialize( options )
+	def initialize( store, options )
+		@store      = store
 		@options    = options
 		$DEBUG_RDOC = $VERBOSE || $DEBUG
 
@@ -65,6 +66,9 @@ class RDoc::Generator::Fivefish
 	# The command-line options given to the rdoc command
 	attr_reader :options
 
+	# The RDoc::Store that contains the parsed CodeObjects
+	attr_reader :store
+
 
 	### Output progress information if debugging is enabled
 	def debug_msg( *msg )
@@ -87,11 +91,10 @@ class RDoc::Generator::Fivefish
 	end
 
 
-	### Build the initial indices and output objects based on an array of TopLevel
-	### objects containing the extracted information.
-	def generate( top_levels )
-		@files   = top_levels.sort
-		@classes = RDoc::TopLevel.all_classes_and_modules.sort
+	### Build the initial indices and output objects based on the files in the generator's store.
+	def generate
+		@files   = self.store.all_files.sort
+		@classes = self.store.all_classes_and_modules.sort
 		@methods = @classes.map {|m| m.method_list }.flatten.sort
 		@modsort = self.get_sorted_module_list( @classes )
 
@@ -228,7 +231,7 @@ class RDoc::Generator::Fivefish
 			template.synopsis = mainpage.description.scan( %r{(<(h1|p).*?</\2>)}m )[0,3].map( &:first )
 		end
 
-		template.all_methods = RDoc::TopLevel.all_classes_and_modules.flat_map do |mod|
+		template.all_methods = self.store.all_classes_and_modules.flat_map do |mod|
 			mod.method_list
 		end.sort
 

@@ -4,7 +4,7 @@ require 'rdoc/rdoc'
 require 'rdoc/generator/fivefish'
 
 # :title: Fivefish RDoc
-#--
+#
 # Toplevel namespace for Fivefish. The main goods are in RDoc::Generator::Fivefish.
 module Fivefish
 
@@ -26,3 +26,4 @@ module Fivefish
 	end
 
 end # module Fivefish
+
