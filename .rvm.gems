@@ -1,7 +1,7 @@
 # .gems generated gem export file. Note that any env variable settings will be missing. Append these after using a ';' field separator
 hoe-deveiate -v0.1.1
-inversion -v0.10.0
+inversion -v0.11.2
 yajl-ruby -v1.1.0
-rdoc -v4.0.0.preview2
+rdoc -v4.0.0.rc.2.1
 less -v2.2.1
 uglifier -v1.2.5
