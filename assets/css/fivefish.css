@@ -125,6 +125,16 @@ section.description h3 {
 	margin-bottom: 0;
 }
 
+header h1 span,
+section.description h2 span {
+	font-size: 12px;
+	padding: 0 0.5em;
+}
+header h1 span a,
+section.description h2 span a {
+	color: #bbb;
+}
+
 /* :section: groups */
 section.documentation-section {
 	margin-top: 3em;
