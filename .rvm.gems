@@ -3,5 +3,5 @@ hoe-deveiate -v0.1.1
 inversion -v0.11.2
 yajl-ruby -v1.1.0
 rdoc -v4.0.0.rc.2.1
-less -v2.2.1
+less -v2.2.2
 uglifier -v1.2.5
