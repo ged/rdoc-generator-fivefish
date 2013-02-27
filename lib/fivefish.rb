@@ -9,13 +9,14 @@ require 'rdoc/generator/fivefish'
 module Fivefish
 
 	# Library version constant
-	VERSION = '0.0.1'
+	VERSION = '0.1.0'
 
 	# Version-control revision constant
 	REVISION = %q$Revision$
 
 	# Fivefish project URL
 	PROJECT_URL = 'http://deveiate.org/fivefish.html'
+
 
 	### Get the library version. If +include_buildnum+ is true, the version string will
 	### include the VCS rev ID.

@@ -74,6 +74,7 @@ hoespec = Hoe.spec( PACKAGE_NAME )  do
 	self.dependency 'yajl-ruby', '~> 1.1'
 	self.dependency 'rdoc',      '~> 4.0'
 
+	self.dependency 'nokogiri',  '~> 1.5', :developer
 	self.dependency 'uglifier',  '~> 1.2', :developer
 	self.dependency 'less',      '~> 2.2', :developer
 
