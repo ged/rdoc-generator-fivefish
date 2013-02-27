@@ -28,6 +28,9 @@
 	<link href="[?attr rel_prefix ?]" rel="prefix" />
 
 	<link href="[?attr rel_prefix ?]/css/fivefish.min.css" rel="stylesheet" />
+<?if rdoc_options.additional_stylesheet ?>
+	<link href="[?call rdoc_options.additional_stylesheet ?]" rel="stylesheet" title="Site Style" />
+<?end if ?>
 
 	<script src="[?attr rel_prefix ?]/js/jquery-1.7.1.min.js" type="text/javascript"
 		defer="defer" charset="utf-8"></script>

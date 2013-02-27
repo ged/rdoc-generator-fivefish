@@ -2,6 +2,7 @@
 
 gem 'rdoc'
 
+require 'uri'
 require 'yajl'
 require 'inversion'
 require 'fileutils'
@@ -26,6 +27,24 @@ class RDoc::Generator::Fivefish
 
 	# Register with RDoc as an alternative generator
     RDoc::RDoc.add_generator( self )
+
+
+	### Add generator-specific options to the option-parser
+	def self::setup_options( rdoc_options )
+		op = rdoc_options.option_parser
+
+		op.accept( URI ) do |string|
+			uri = URI.parse( string ) rescue nil
+			raise OptionParser::InvalidArgument unless uri
+			uri
+		end
+		op.on( '--additional-stylesheet=URL', URI,
+		       "Add an additional (preferred) stylesheet",
+			   "link to each generated page. This allows",
+			   "the output style to be overridden." ) do |url|
+			rdoc_options.additional_stylesheet = url
+		end
+	end
 
 
 	### Set up some instance variables
@@ -111,7 +130,6 @@ class RDoc::Generator::Fivefish
 	#########
 	protected
 	#########
-
 
 	### Return an Array of Pathname objects for each file/directory in the
 	### list of static assets that should be copied into the output directory.
@@ -344,4 +362,13 @@ class RDoc::Generator::Fivefish
 
 end # class RDoc::Generator::Fivefish
 
+
+# Reopen to add custom option attrs.
+class RDoc::Options
+
+	##
+	# Allow setting a custom stylesheet
+	attr_accessor :additional_stylesheet
+
+end
 
