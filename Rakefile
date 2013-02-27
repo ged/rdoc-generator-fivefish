@@ -72,7 +72,7 @@ hoespec = Hoe.spec( PACKAGE_NAME )  do
 
 	self.dependency 'inversion', '~> 0.11'
 	self.dependency 'yajl-ruby', '~> 1.1'
-	self.dependency 'rdoc',      '~> 4'
+	self.dependency 'rdoc',      '~> 4.0'
 
 	self.dependency 'uglifier',  '~> 1.2', :developer
 	self.dependency 'less',      '~> 2.2', :developer
@@ -109,6 +109,7 @@ task :dev do
 	ENV['FIVEFISH_DEVELMODE'] = 'true'
 end
 
+task :gem => :assets
 
 # Eat our own dogfood
 task :docs => :assets
