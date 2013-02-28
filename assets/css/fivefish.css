@@ -91,7 +91,10 @@ div.container > header.hero-unit h1 {
 	display: inline-block;
 	text-shadow: 1px 1px 3px rgba( 25,25,25, 0.2 );
 }
-
+/* ...and allow it to be flexible about its width */
+.popover {
+	width: inherit;
+}
 
 /* Indexes */
 section#indexes {
@@ -126,12 +129,16 @@ section.description h3 {
 }
 
 header h1 span,
-section.description h2 span {
+section.description h2 span,
+section.description h3 span,
+section.description h4 span {
 	font-size: 12px;
 	padding: 0 0.5em;
 }
 header h1 span a,
-section.description h2 span a {
+section.description h2 span a,
+section.description h3 span a,
+section.description h4 span a {
 	color: #bbb;
 }
 
@@ -404,7 +411,18 @@ div.dropdown-menu {
 	content: "";
 }
 
+.nav-list li a {
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.nav-list li a:hover {
+	overflow: visible;
+}
+.nav-list li .ns {
+	font-size: smaller;
+}
 
 footer {
 	padding: 1em 0 3em;
 }
+
