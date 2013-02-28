@@ -19,15 +19,20 @@ BOOTSTRAP_CSS             = CSSDIR + 'bootstrap.min.css'
 BOOTSTRAP_RESPONSIVE_LESS = BOOTSTRAP_CSSLIB + 'responsive.less'
 BOOTSTRAP_RESPONSIVE      = CSSDIR + 'bootstrap-responsive.min.css'
 
-# Order: transition alert button carousel collapse dropdown modal tooltip popover scrollspy tab typeahead
+# Dependency Order: transition alert button carousel collapse dropdown modal 
+#                   tooltip popover scrollspy tab typeahead
 
+BOOTSTRAP_SOURCES         = FileList.new
 BOOTSTRAP_MODULES         = %w[transition modal tooltip popover typeahead]
-BOOTSTRAP_MOD_GLOB        = 'bootstrap-{%s}.js' % BOOTSTRAP_MODULES.join(',')
-BOOTSTRAP_SOURCES         = FileList[ (BOOTSTRAP_JSLIB + BOOTSTRAP_MOD_GLOB).to_s ]
 BOOTSTRAP_JS              = JSDIR + 'bootstrap.min.js'
 
 BOOTSTRAP_IMGSRC          = FileList[ (BOOTSTRAP_IMGLIB + '*.png').to_s ]
 BOOTSTRAP_IMAGES          = BOOTSTRAP_IMGSRC.pathmap( (IMGDIR + '%f').to_s )
+
+BOOTSTRAP_MODULES.each do |mod|
+	modfile = BOOTSTRAP_JSLIB + "bootstrap-#{mod}.js"
+	BOOTSTRAP_SOURCES.include( modfile.to_s )
+end
 
 
 #
@@ -81,7 +86,7 @@ file BOOTSTRAP_JS => [ JSDIR.to_s, *BOOTSTRAP_SOURCES ] do |task|
 		trace "  catenating: #{file}"
 		source << File.read( file, encoding: 'utf-8' )
 	end
-	compressed = Uglifier.compile( source, beautify: $devmode, copyright: true ) << "\n"
+	compressed = Uglifier.compile( source ) << "\n"
 
 	File.write( task.name, compressed, encoding: 'utf-8' )
 end
