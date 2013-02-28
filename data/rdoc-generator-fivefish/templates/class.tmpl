@@ -44,6 +44,18 @@
 				<?end if ?>
 				<?end for ?>
 				<?end unless ?>
+
+				<?unless klass.extends.empty? ?>
+				<dt>Extended With</dt>
+				<?for ext in klass.extends ?>
+				<?if ext.module.respond_to?(:path) ?>
+				<dd class="extend"><a href="[?call klass.aref_to(ext.module.path) ?]"><?call
+					ext.module.full_name ?></a></dd>
+				<?else ?>
+				<dd class="extend"><?call ext.name ?></dd>
+				<?end if ?>
+				<?end for ?>
+				<?end unless ?>
 			</dl>
 		</section>
 
