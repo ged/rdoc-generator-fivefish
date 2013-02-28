@@ -246,7 +246,7 @@ class RDoc::Generator::Fivefish
 
 		if mainpage
 			template.mainpage = mainpage
-			template.synopsis = mainpage.description.scan( %r{(<(h1|p).*?</\2>)}m )[0,3].map( &:first )
+			template.synopsis = self.extract_synopsis( mainpage )
 		end
 
 		template.all_methods = self.store.all_classes_and_modules.flat_map do |mod|
@@ -359,6 +359,21 @@ class RDoc::Generator::Fivefish
 		return objs
 	end
 
+
+	### Extract a synopsis for the project from the specified +mainpage+ and
+	### return it as a String.
+	def extract_synopsis( mainpage )
+		desc    = mainpage.description
+		heading = desc[ %r{(<h1.*?/h1>)}im ]
+		paras   = desc.scan( %r{<p\b.*?/p>}im )
+
+		first_para = paras.map( &:strip ).find do |para|
+			# Discard paragraphs consisting only of a link
+			!( para.start_with?('<p><a') && para.end_with?('/a></p>') )
+		end
+
+		return heading + first_para
+	end
 
 end # class RDoc::Generator::Fivefish
 
