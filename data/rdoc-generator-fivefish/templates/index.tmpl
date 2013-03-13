@@ -1,4 +1,4 @@
-<?import rel_prefix, modsort, files ?>
+<?import rel_prefix, modsort, methods, files ?>
 
 		<header class="hero-unit">
 			<?attr synopsis ?>
@@ -24,7 +24,7 @@
 			<div class="span4">
 				<ul id="method-index" class="nav nav-list">
 					<li class="nav-header">Methods</li>
-				<?for method in all_methods.uniq {|m| m.path } ?>
+				<?for method in methods.uniq {|m| m.path } ?>
 					<li class="method"><a title="[?call method.parent.full_name ?]"
 						href="[?call method.path ?]"><?call method.pretty_name ?>
 						<span class="method-parent">[<?call 

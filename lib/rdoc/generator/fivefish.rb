@@ -249,10 +249,6 @@ class RDoc::Generator::Fivefish
 			template.synopsis = self.extract_synopsis( mainpage )
 		end
 
-		template.all_methods = self.store.all_classes_and_modules.flat_map do |mod|
-			mod.method_list
-		end.sort
-
 		layout.rel_prefix = self.output_dir.relative_path_from( out_file.dirname )
 		layout.contents = template
 		layout.pageclass = 'index-page'
