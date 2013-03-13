@@ -70,13 +70,13 @@ hoespec = Hoe.spec( PACKAGE_NAME )  do
 
 	self.developer 'Michael Granger', 'ged@FaerieMUD.org'
 
-	self.dependency 'inversion', '~> 0.11'
+	self.dependency 'inversion', '~> 0.12'
 	self.dependency 'yajl-ruby', '~> 1.1'
 	self.dependency 'rdoc',      '~> 4.0'
 
-	self.dependency 'nokogiri',  '~> 1.5', :developer
-	self.dependency 'uglifier',  '~> 1.2', :developer
-	self.dependency 'less',      '~> 2.2', :developer
+	self.dependency 'hoe-deveiate', '~> 0.2', :developer
+	self.dependency 'uglifier',     '~> 1.2', :developer
+	self.dependency 'less',         '~> 2.2', :developer
 
 	self.spec_extras[:licenses] = ["BSD"]
 	self.require_ruby_version( '>=1.9.3' )
