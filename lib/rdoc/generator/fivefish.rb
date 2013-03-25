@@ -5,6 +5,7 @@ gem 'rdoc'
 require 'uri'
 require 'yajl'
 require 'inversion'
+require 'loggability'
 require 'fileutils'
 require 'pathname'
 require 'rdoc/rdoc'
@@ -12,7 +13,13 @@ require 'rdoc/generator/json_index'
 
 # The Fivefish generator class.
 class RDoc::Generator::Fivefish
+	extend Loggability
     include FileUtils
+
+
+	# Loggability API -- set up a Logger for Fivefish
+	log_as :fivefish
+
 
 	# The data directory in the project if that exists, otherwise the gem datadir
 	DATADIR = if ENV['FIVEFISH_DATADIR']
@@ -52,6 +59,8 @@ class RDoc::Generator::Fivefish
 		@store      = store
 		@options    = options
 		$DEBUG_RDOC = $VERBOSE || $DEBUG
+
+		self.log.debug "Setting up generator for %p with options: %p" % [ @store, @options ]
 
 		extend( FileUtils::Verbose ) if $DEBUG_RDOC
 		extend( FileUtils::DryRun ) if options.dry_run
@@ -112,10 +121,7 @@ class RDoc::Generator::Fivefish
 
 	### Build the initial indices and output objects based on the files in the generator's store.
 	def generate
-		@files   = self.store.all_files.sort
-		@classes = self.store.all_classes_and_modules.sort
-		@methods = @classes.map {|m| m.method_list }.flatten.sort
-		@modsort = self.get_sorted_module_list( @classes )
+		self.populate_data_objects
 
 		self.generate_index_page
 		self.generate_class_files
@@ -127,6 +133,163 @@ class RDoc::Generator::Fivefish
 	end
 
 
+	### Populate the data objects necessary to generate documentation from the generator's
+	### #store.
+	def populate_data_objects
+		@files   = self.store.all_files.sort
+		@classes = self.store.all_classes_and_modules.sort
+		@methods = @classes.map {|m| m.method_list }.flatten.sort
+		@modsort = self.get_sorted_module_list( @classes )
+	end
+
+
+	### Generate an index page which lists all the classes which are documented.
+	def generate_index_page
+		self.log.debug "Generating index page"
+		layout = self.load_layout_template
+		template = self.load_template( 'index.tmpl' )
+		out_file = self.output_dir + 'index.html'
+		out_file.dirname.mkpath
+
+		mainpage = nil
+		if mpname = self.options.main_page
+			mainpage = @files.find {|f| f.full_name == mpname }
+		else
+			mainpage = @files.find {|f| f.full_name =~ /\breadme\b/i }
+		end
+		self.log.debug "  using main_page (%s)" % [ mainpage ]
+
+		if mainpage
+			template.mainpage = mainpage
+			template.synopsis = self.extract_synopsis( mainpage )
+		end
+
+		layout.rel_prefix = self.output_dir.relative_path_from( out_file.dirname )
+		layout.contents = template
+		layout.pageclass = 'index-page'
+
+		out_file.open( 'w', 0644 ) {|io| io.print(layout.render) }
+	end
+
+
+	### Generate a documentation file for each class and module
+	def generate_class_files
+		layout = self.load_layout_template
+		template = self.load_template( 'class.tmpl' )
+
+		self.log.debug "Generating class documentation in #{self.output_dir}"
+
+		@classes.each do |klass|
+			self.log.debug "  working on %s (%s)" % [klass.full_name, klass.path]
+
+			out_file = self.output_dir + klass.path
+			out_file.dirname.mkpath
+
+			template.klass = klass
+
+			layout.contents = template
+			layout.rel_prefix = self.output_dir.relative_path_from( out_file.dirname )
+			layout.pageclass = 'class-page'
+
+			out_file.open( 'w', 0644 ) {|io| io.print(layout.render) }
+		end
+	end
+
+
+	### Generate a documentation file for each file
+	def generate_file_files
+		layout = self.load_layout_template
+		template = self.load_template( 'file.tmpl' )
+
+		self.log.debug "Generating file documentation in #{self.output_dir}"
+
+		@files.select {|f| f.text? }.each do |file|
+			out_file = self.output_dir + file.path
+			out_file.dirname.mkpath
+
+			self.log.debug "  working on %s (%s)" % [file.full_name, out_file]
+
+			template.file = file
+
+			# If the page itself has an H1, use it for the header, otherwise make one
+			# out of the name of the file
+			if md = file.description.match( %r{<h1.*?>.*?</h1>}i )
+				template.header = md[ 0 ]
+				template.description = file.description[ md.offset(0)[1] + 1 .. -1 ]
+			else
+				template.header = File.basename( file.full_name, File.extname(file.full_name) )
+				template.description = file.description
+			end
+
+			layout.contents = template
+			layout.rel_prefix = self.output_dir.relative_path_from(out_file.dirname)
+			layout.pageclass = 'file-page'
+
+			out_file.open( 'w', 0644 ) {|io| io.print(layout.render) }
+		end
+	end
+
+
+	### Generate a JSON search index for the quicksearch blank.
+	def generate_search_index
+		out_file = self.output_dir + 'js/searchindex.js'
+
+		self.log.debug "Generating search index (%s)." % [ out_file ]
+		index = []
+
+	    objs = self.get_indexable_objects
+		objs.each do |codeobj|
+			self.log.debug "  #{codeobj.name}..."
+			record = codeobj.search_record
+			index << {
+				name:    record[2],
+				link:    record[4],
+				snippet: record[6],
+				type:    codeobj.class.name.downcase.sub( /.*::/, '' )
+			}
+		end
+
+		self.log.debug "  dumping JSON..."
+		out_file.dirname.mkpath
+		ofh = out_file.open( 'w:utf-8', 0644 )
+
+		json = Yajl.dump( index, pretty: true, indent: "\t" )
+
+		ofh.puts( 'var SearchIndex = ', json, ';' )
+	end
+
+
+	### Copies static files from the static_path into the output directory
+	def copy_static_assets
+		asset_paths = self.find_static_assets
+
+		self.log.debug "Copying assets from paths:", *asset_paths
+
+		asset_paths.each do |path|
+
+			# For plain files, just install them
+			if path.file?
+				self.log.debug "  plain file; installing as-is"
+				install( path, self.output_dir, :mode => 0644 )
+
+			# Glob all the files out of subdirectories and install them
+			elsif path.directory?
+				self.log.debug "  directory %p; copying contents" % [ path ]
+
+				Pathname.glob( path + '{css,fonts,img,js}/**/*'.to_s ).each do |asset|
+					next if asset.directory? || asset.basename.to_s.start_with?( '.' )
+
+					dst = asset.relative_path_from( path )
+					dst.dirname.mkpath
+
+					self.log.debug "    %p -> %p" % [ asset, dst ]
+					install asset, dst, :mode => 0644
+				end
+			end
+		end
+	end
+
+
 	#########
 	protected
 	#########
@@ -135,45 +298,14 @@ class RDoc::Generator::Fivefish
 	### list of static assets that should be copied into the output directory.
 	def find_static_assets
 		paths = self.options.static_path || []
-		self.debug_msg "Finding asset paths. Static paths: %p" % [ paths ]
+		self.log.debug "Finding asset paths. Static paths: %p" % [ paths ]
 
 		# Add each subdirectory of the template dir
-		self.debug_msg "  adding directories under %s" % [ self.template_dir ]
+		self.log.debug "  adding directories under %s" % [ self.template_dir ]
 		paths << self.template_dir
-		self.debug_msg "  paths are now: %p" % [ paths ]
+		self.log.debug "  paths are now: %p" % [ paths ]
 
 		return paths.flatten.compact.uniq
-	end
-
-
-	### Copies static files from the static_path into the output directory
-	def copy_static_assets
-		asset_paths = self.find_static_assets
-
-		self.debug_msg "Copying assets from paths:", *asset_paths
-
-		asset_paths.each do |path|
-
-			# For plain files, just install them
-			if path.file?
-				self.debug_msg "  plain file; installing as-is"
-				install( path, self.output_dir, :mode => 0644 )
-
-			# Glob all the files out of subdirectories and install them
-			elsif path.directory?
-				self.debug_msg "  directory %p; copying contents" % [ path ]
-
-				Pathname.glob( path + '{css,fonts,img,js}/**/*'.to_s ).each do |asset|
-					next if asset.directory? || asset.basename.to_s.start_with?( '.' )
-
-					dst = asset.relative_path_from( path )
-					dst.dirname.mkpath
-
-					self.debug_msg "    %p -> %p" % [ asset, dst ]
-					install asset, dst, :mode => 0644
-				end
-			end
-		end
 	end
 
 
@@ -225,122 +357,6 @@ class RDoc::Generator::Fivefish
 		template.fivefish_version = Fivefish.version_string
 
 		return template
-	end
-
-
-	### Generate an index page which lists all the classes which are documented.
-	def generate_index_page
-		self.debug_msg "Generating index page"
-		layout = self.load_layout_template
-		template = self.load_template( 'index.tmpl' )
-		out_file = self.output_dir + 'index.html'
-		out_file.dirname.mkpath
-
-		mainpage = nil
-		if mpname = self.options.main_page
-			mainpage = @files.find {|f| f.full_name == mpname }
-		else
-			mainpage = @files.find {|f| f.full_name =~ /\breadme\b/i }
-		end
-		self.debug_msg "  using main_page (%s)" % [ mainpage ]
-
-		if mainpage
-			template.mainpage = mainpage
-			template.synopsis = self.extract_synopsis( mainpage )
-		end
-
-		layout.rel_prefix = self.output_dir.relative_path_from( out_file.dirname )
-		layout.contents = template
-		layout.pageclass = 'index-page'
-
-		out_file.open( 'w', 0644 ) {|io| io.print(layout.render) }
-	end
-
-
-	### Generate a documentation file for each class and module
-	def generate_class_files
-		layout = self.load_layout_template
-		template = self.load_template( 'class.tmpl' )
-
-		debug_msg "Generating class documentation in #{self.output_dir}"
-
-		@classes.each do |klass|
-			debug_msg "  working on %s (%s)" % [klass.full_name, klass.path]
-
-			out_file = self.output_dir + klass.path
-			out_file.dirname.mkpath
-
-			template.klass = klass
-
-			layout.contents = template
-			layout.rel_prefix = self.output_dir.relative_path_from( out_file.dirname )
-			layout.pageclass = 'class-page'
-
-			out_file.open( 'w', 0644 ) {|io| io.print(layout.render) }
-		end
-	end
-
-
-	### Generate a documentation file for each file
-	def generate_file_files
-		layout = self.load_layout_template
-		template = self.load_template( 'file.tmpl' )
-
-		debug_msg "Generating file documentation in #{self.output_dir}"
-
-		@files.select {|f| f.text? }.each do |file|
-			out_file = self.output_dir + file.path
-			out_file.dirname.mkpath
-
-			debug_msg "  working on %s (%s)" % [file.full_name, out_file]
-
-			template.file = file
-
-			# If the page itself has an H1, use it for the header, otherwise make one
-			# out of the name of the file
-			if md = file.description.match( %r{<h1.*?>.*?</h1>}i )
-				template.header = md[ 0 ]
-				template.description = file.description[ md.offset(0)[1] + 1 .. -1 ]
-			else
-				template.header = File.basename( file.full_name, File.extname(file.full_name) )
-				template.description = file.description
-			end
-
-			layout.contents = template
-			layout.rel_prefix = self.output_dir.relative_path_from(out_file.dirname)
-			layout.pageclass = 'file-page'
-
-			out_file.open( 'w', 0644 ) {|io| io.print(layout.render) }
-		end
-	end
-
-
-	### Generate a JSON search index for the quicksearch blank.
-	def generate_search_index
-		out_file = self.output_dir + 'js/searchindex.js'
-
-		self.debug_msg "Generating search index (%s)." % [ out_file ]
-		index = []
-
-	    objs = self.get_indexable_objects
-		objs.each do |codeobj|
-			self.debug_msg "  #{codeobj.name}..."
-			record = codeobj.search_record
-			index << {
-				name:    record[2],
-				link:    record[4],
-				snippet: record[6],
-				type:    codeobj.class.name.downcase.sub( /.*::/, '' )
-			}
-		end
-
-		self.debug_msg "  dumping JSON..."
-		out_file.dirname.mkpath
-		ofh = out_file.open( 'w:utf-8', 0644 )
-
-		json = Yajl.dump( index, pretty: true, indent: "\t" )
-
-		ofh.puts( 'var SearchIndex = ', json, ';' )
 	end
 
 
