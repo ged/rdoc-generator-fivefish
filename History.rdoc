@@ -1,3 +1,14 @@
+== v0.1.0 [2013-02-27] Michael Granger <ged@FaerieMUD.org>
+
+- Add some CSS and module-index visual tweaks
+- Make the synopsis-extraction more intelligent
+- Add support for module extension
+- Add Ruby 2.0 support
+- Add an --additional-stylesheet option
+- Make the anchor and top links in titles less obnoxious
+- Update for RDoc 4
+
+
 == v0.0.1 [2012-09-12] Michael Granger <ged@FaerieMUD.org>
 
 Initial release.
