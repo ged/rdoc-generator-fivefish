@@ -24,3 +24,6 @@ data/rdoc-generator-fivefish/templates/layout.tmpl
 lib/fivefish.rb
 lib/rdoc/discover.rb
 lib/rdoc/generator/fivefish.rb
+spec/fivefish_spec.rb
+spec/helpers.rb
+spec/rdoc/generator/fivefish_spec.rb

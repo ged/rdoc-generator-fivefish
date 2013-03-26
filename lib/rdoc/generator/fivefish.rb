@@ -263,7 +263,7 @@ class RDoc::Generator::Fivefish
 	def copy_static_assets
 		asset_paths = self.find_static_assets
 
-		self.log.debug "Copying assets from paths:", *asset_paths
+		self.log.debug "Copying assets from paths: %s" % [ asset_paths.join(', ') ]
 
 		asset_paths.each do |path|
 
