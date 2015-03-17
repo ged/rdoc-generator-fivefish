@@ -376,7 +376,7 @@ class RDoc::Generator::Fivefish
 	### return it as a String.
 	def extract_synopsis( mainpage )
 		desc    = mainpage.description
-		heading = desc[ %r{(<h1.*?/h1>)}im ]
+		heading = desc[ %r{(<h1.*?/h1>)}im ] || ''
 		paras   = desc.scan( %r{<p\b.*?/p>}im )
 
 		first_para = paras.map( &:strip ).find do |para|

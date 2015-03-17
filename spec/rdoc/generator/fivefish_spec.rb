@@ -1,7 +1,8 @@
 # -*- ruby -*-
 #encoding: utf-8
 
-require 'helpers'
+require_relative '../../helpers'
+
 require 'tmpdir'
 require 'rspec'
 require 'rdoc/generator/fivefish'
@@ -14,8 +15,6 @@ describe RDoc::Generator::Fivefish do
 	#   https://github.com/rdoc/rdoc/blob/master/LICENSE.rdoc
 
 	before( :all ) do
-		setup_logging()
-
 		@libdir = Pathname.pwd + 'lib'
 		@datadir = RDoc::Generator::Fivefish::DATADIR
 		@tmpdir = Pathname( Dir.tmpdir ) + "test_rdoc_generator_fivefish_#{$$}"
@@ -59,11 +58,12 @@ describe RDoc::Generator::Fivefish do
 	#
 
 	it "registers itself as a generator" do
-		RDoc::RDoc::GENERATORS.include?( described_class )
+		expect( RDoc::RDoc::GENERATORS ).to include( 'fivefish' => described_class )
 	end
 
+
 	it "configures Inversion to load templates from its data directory" do
-		Inversion::Template.template_paths.should == [ @datadir + 'templates' ]
+		expect( Inversion::Template.template_paths ).to eq( [@datadir + 'templates'] )
 	end
 
 
@@ -71,7 +71,7 @@ describe RDoc::Generator::Fivefish do
 
 		it "is added to the options by the setup_options callback" do
 			@options.setup_generator( 'fivefish' )
-			@options.option_parser.to_a.join.should include( '--additional-stylesheet=URL' )
+			expect( @options.option_parser.to_a.join ).to include( '--additional-stylesheet=URL' )
 		end
 
 	end
@@ -87,23 +87,24 @@ describe RDoc::Generator::Fivefish do
 		it "combines an index template with the layout template to make the index page" do
 			layout_template = get_fixtured_layout_template_mock()
 
-			index_template = mock( "index template" )
-			Inversion::Template.stub( :load ).with( 'index.tmpl', encoding: 'utf-8' ).
+			index_template = double( "index template" )
+			expect( Inversion::Template ).to receive( :load ).
+				with( 'index.tmpl', encoding: 'utf-8' ).
 				and_return( index_template )
 
-			index_template.should_receive( :dup ).and_return( index_template )
-			index_template.should_receive( :mainpage= ).with( @readme )
-			index_template.should_receive( :synopsis= ).
+			expect( index_template ).to receive( :dup ).and_return( index_template )
+			expect( index_template ).to receive( :mainpage= ).with( @readme )
+			expect( index_template ).to receive( :synopsis= ).
 				with( %{<h1 id="label-Testing+README">Testing <a href="README_md} +
 				      %{.html">README</a><span><a href="#label-Testing+README">} +
-				      %{&para;</a> <a href="#documentation">&uarr;</a></span></h1>} +
+				      %{&para;</a> <a href="#top">&uarr;</a></span></h1>} +
 				      %{<p>This is a readme for testing.</p>} )
 
-			layout_template.should_receive( :contents= ).with( index_template )
-			layout_template.should_receive( :pageclass= ).with( 'index-page' )
-			layout_template.should_receive( :rel_prefix= ).with( Pathname('.') )
+			expect( layout_template ).to receive( :contents= ).with( index_template )
+			expect( layout_template ).to receive( :pageclass= ).with( 'index-page' )
+			expect( layout_template ).to receive( :rel_prefix= ).with( Pathname('.') )
 
-			layout_template.should_receive( :render ).and_return( 'Index page!' )
+			expect( layout_template ).to receive( :render ).and_return( 'Index page!' )
 
 			@generator.generate_index_page
 		end
@@ -114,23 +115,24 @@ describe RDoc::Generator::Fivefish do
 
 			layout_template = get_fixtured_layout_template_mock()
 
-			class_template = mock( "class template" )
-			Inversion::Template.stub( :load ).with( 'class.tmpl', encoding: 'utf-8' ).
+			class_template = double( "class template" )
+			expect( Inversion::Template ).to receive( :load ).
+				with( 'class.tmpl', encoding: 'utf-8' ).
 				and_return( class_template )
-			class_template.should_receive( :dup ).and_return( class_template )
+			expect( class_template ).to receive( :dup ).and_return( class_template )
 
 			classes.each do |klass|
-				class_template.should_receive( :klass= ).with( klass )
+				expect( class_template ).to receive( :klass= ).with( klass )
 			end
 
-			layout_template.should_receive( :contents= ).with( class_template ).
+			expect( layout_template ).to receive( :contents= ).with( class_template ).
 				exactly( classes.length ).times
-			layout_template.should_receive( :pageclass= ).with( 'class-page' ).
+			expect( layout_template ).to receive( :pageclass= ).with( 'class-page' ).
 				exactly( classes.length ).times
-			layout_template.should_receive( :rel_prefix= ).with( Pathname('.') ).
+			expect( layout_template ).to receive( :rel_prefix= ).with( Pathname('.') ).
 				exactly( classes.length ).times
 
-			layout_template.should_receive( :render ).
+			expect( layout_template ).to receive( :render ).
 				and_return( *classes.map {|k| "#{k.name} class page!"} )
 
 			@generator.generate_class_files
@@ -142,24 +144,25 @@ describe RDoc::Generator::Fivefish do
 
 			layout_template = get_fixtured_layout_template_mock()
 
-			file_template = mock( "file template" )
-			Inversion::Template.stub( :load ).with( 'file.tmpl', encoding: 'utf-8' ).
+			file_template = double( "file template" )
+			expect( Inversion::Template ).to receive( :load ).
+				with( 'file.tmpl', encoding: 'utf-8' ).
 				and_return( file_template )
-			file_template.should_receive( :dup ).and_return( file_template )
-			file_template.should_receive( :header= ).
+			expect( file_template ).to receive( :dup ).and_return( file_template )
+			expect( file_template ).to receive( :header= ).
 				with( %{<h1 id="label-Testing+README">Testing <a href="README_md} +
 				      %{.html">README</a><span><a href="#label-Testing+README">} +
-				      %{&para;</a> <a href="#documentation">&uarr;</a></span></h1>} )
-			file_template.should_receive( :description= ).
+				      %{&para;</a> <a href="#top">&uarr;</a></span></h1>} )
+			expect( file_template ).to receive( :description= ).
 				with( %{\n<p>This is a readme for testing.</p>\n\n<p>It has some more} +
 				      %{ stuff</p>\n\n<p>And even more stuff.</p>\n} )
 
-			file_template.should_receive( :file= ).with( @readme )
+			expect( file_template ).to receive( :file= ).with( @readme )
 
-			layout_template.should_receive( :contents= ).with( file_template ).once
-			layout_template.should_receive( :pageclass= ).with( 'file-page' )
-			layout_template.should_receive( :rel_prefix= ).with( Pathname('.') )
-			layout_template.should_receive( :render ).and_return( "README file page!" )
+			expect( layout_template ).to receive( :contents= ).with( file_template ).once
+			expect( layout_template ).to receive( :pageclass= ).with( 'file-page' )
+			expect( layout_template ).to receive( :rel_prefix= ).with( Pathname('.') )
+			expect( layout_template ).to receive( :render ).and_return( "README file page!" )
 
 			@generator.generate_file_files
 		end
@@ -220,24 +223,25 @@ describe RDoc::Generator::Fivefish do
 
 
 	def get_fixtured_layout_template_mock
-		layout_template = mock( "layout template" )
-		Inversion::Template.stub( :load ).with( 'layout.tmpl', encoding: 'utf-8' ).
+		layout_template = double( "layout template" )
+		expect( Inversion::Template ).to receive( :load ).
+			with( 'layout.tmpl', encoding: 'utf-8' ).
 			and_return( layout_template )
 
 		# Work around caching
-		layout_template.should_receive( :dup ).and_return( layout_template )
+		expect( layout_template ).to receive( :dup ).and_return( layout_template )
 
-		layout_template.should_receive( :files= ).with( [@readme, @top_level] )
-		layout_template.should_receive( :classes= ).
+		expect( layout_template ).to receive( :files= ).with( [@readme, @top_level] )
+		expect( layout_template ).to receive( :classes= ).
 			with( @store.all_classes_and_modules.sort )
-		layout_template.should_receive( :methods= ).
+		expect( layout_template ).to receive( :methods= ).
 			with( @store.all_classes_and_modules.flat_map(&:method_list).sort )
-		layout_template.should_receive( :modsort= ).with do |sorted_mods|
-			sorted_mods.should include( @store.find_class_named('Klass') )
+		expect( layout_template ).to receive( :modsort= ) do |sorted_mods|
+			expect( sorted_mods ).to include( @store.find_class_named('Klass') )
 		end
-		layout_template.should_receive( :rdoc_options= ).with( @options )
-		layout_template.should_receive( :rdoc_version= ).with( RDoc::VERSION )
-		layout_template.should_receive( :fivefish_version= ).with( Fivefish.version_string )
+		expect( layout_template ).to receive( :rdoc_options= ).with( @options )
+		expect( layout_template ).to receive( :rdoc_version= ).with( RDoc::VERSION )
+		expect( layout_template ).to receive( :fivefish_version= ).with( Fivefish.version_string )
 
 		return layout_template
 	end

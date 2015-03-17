@@ -25,17 +25,20 @@ Loggability.format_with( :color ) if $stdout.tty?
 
 ### RSpec helper functions.
 module Fivefish::SpecHelpers
-
-
 end
 
 
 ### Mock with RSpec
-RSpec.configure do |c|
-	c.mock_with( :rspec )
+RSpec.configure do |config|
+	config.run_all_when_everything_filtered = true
+	config.filter_run :focus
+	config.order = 'random'
+	config.mock_with( :rspec ) do |mock|
+		mock.syntax = :expect
+	end
 
-	c.include( Loggability::SpecHelpers )
-	c.include( Fivefish::SpecHelpers )
+	config.include( Loggability::SpecHelpers )
+	config.include( Fivefish::SpecHelpers )
 end
 
 # vim: set nosta noet ts=4 sw=4:
