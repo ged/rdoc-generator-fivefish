@@ -26,6 +26,8 @@ IMGDIR       = DATADIR + 'img'
 
 ASSETDIR     = BASEDIR + 'assets'
 
+GEMSPEC      = 'rdoc-generator-fivefish.gemspec'
+
 
 #
 # Helper functions
@@ -77,8 +79,8 @@ hoespec = Hoe.spec( PACKAGE_NAME )  do
 	self.dependency 'rdoc',         '~> 5.0'
 
 	self.dependency 'hoe-deveiate', '~> 0.8', :developer
-	self.dependency 'uglifier',     '~> 1.2', :developer
-	self.dependency 'less',         '~> 2.2', :developer
+	self.dependency 'uglifier',     '~> 1.3.0', :developer
+	self.dependency 'less',         '~> 2.2.0', :developer
 
 	self.require_ruby_version( '>=1.9.3' )
 	self.hg_sign_tags = true if self.respond_to?( :hg_sign_tags= )
@@ -132,5 +134,20 @@ task :assets
 Rake::FileList[ 'tasks/*.rb' ].each do |tasklib|
 	require_relative( tasklib )
 end
+
+
+task :gemspec => GEMSPEC
+file GEMSPEC => __FILE__
+task GEMSPEC do |task|
+	spec = $hoespec.spec
+	spec.files.delete( '.gemtest' )
+	spec.version = "#{spec.version.bump}.0.pre#{Time.now.strftime("%Y%m%d%H%M%S")}"
+	File.open( task.name, 'w' ) do |fh|
+		fh.write( spec.to_ruby )
+	end
+end
+
+CLOBBER.include( GEMSPEC.to_s )
+task :default => :gemspec
 
 

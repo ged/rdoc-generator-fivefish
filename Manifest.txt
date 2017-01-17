@@ -1,5 +1,4 @@
 .autotest
-.gems
 ChangeLog
 History.rdoc
 Manifest.txt

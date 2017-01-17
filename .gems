@@ -3,6 +3,6 @@ inversion
 loggability
 yajl-ruby
 rdoc
-less
+less -v '~>2.2.0'
 therubyracer
-uglifier
+uglifier -v '~>1.3.0'
