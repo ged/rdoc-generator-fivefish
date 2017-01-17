@@ -67,6 +67,7 @@ hoespec = Hoe.spec( PACKAGE_NAME )  do
 	self.readme_file = 'README.rdoc'
 	self.history_file = 'History.rdoc'
 	self.need_rdoc = false
+	self.license 'BSD-3-Clause'
 
 	self.developer 'Michael Granger', 'ged@FaerieMUD.org'
 

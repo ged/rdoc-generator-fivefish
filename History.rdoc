@@ -1,3 +1,9 @@
+== v0.2.0 [2017-01-17] Michael Granger <ged@FaerieMUD.org>
+
+- Bump Inversion and Loggabilty dep
+- Update for Ruby >2.2, newer RSpec.
+
+
 == v0.1.0 [2013-02-27] Michael Granger <ged@FaerieMUD.org>
 
 - Add some CSS and module-index visual tweaks
