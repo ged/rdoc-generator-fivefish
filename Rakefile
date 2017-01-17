@@ -80,7 +80,6 @@ hoespec = Hoe.spec( PACKAGE_NAME )  do
 	self.dependency 'uglifier',     '~> 1.2', :developer
 	self.dependency 'less',         '~> 2.2', :developer
 
-	self.spec_extras[:licenses] = ["BSD"]
 	self.require_ruby_version( '>=1.9.3' )
 	self.hg_sign_tags = true if self.respond_to?( :hg_sign_tags= )
 	self.check_history_on_release = true if self.respond_to?( :check_history_on_release= )
