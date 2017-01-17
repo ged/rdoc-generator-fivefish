@@ -70,12 +70,12 @@ hoespec = Hoe.spec( PACKAGE_NAME )  do
 
 	self.developer 'Michael Granger', 'ged@FaerieMUD.org'
 
-	self.dependency 'inversion',    '~> 0.12'
-	self.dependency 'loggability',  '~> 0.6'
-	self.dependency 'yajl-ruby',    '~> 1.1'
-	self.dependency 'rdoc',         '~> 4.0'
+	self.dependency 'inversion',    '~> 1.0'
+	self.dependency 'loggability',  '~> 0.12'
+	self.dependency 'yajl-ruby',    '~> 1.3'
+	self.dependency 'rdoc',         '~> 5.0'
 
-	self.dependency 'hoe-deveiate', '~> 0.2', :developer
+	self.dependency 'hoe-deveiate', '~> 0.8', :developer
 	self.dependency 'uglifier',     '~> 1.2', :developer
 	self.dependency 'less',         '~> 2.2', :developer
 
