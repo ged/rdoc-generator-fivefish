@@ -1,19 +1,19 @@
 # -*- encoding: utf-8 -*-
-# stub: rdoc-generator-fivefish 0.3.0.pre20170117110255 ruby lib
+# stub: rdoc-generator-fivefish 0.3.0.pre20170119150555 ruby lib
 
 Gem::Specification.new do |s|
   s.name = "rdoc-generator-fivefish".freeze
-  s.version = "0.3.0.pre20170117110255"
+  s.version = "0.3.0.pre20170119150555"
 
   s.required_rubygems_version = Gem::Requirement.new("> 1.3.1".freeze) if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib".freeze]
   s.authors = ["Michael Granger".freeze]
   s.cert_chain = ["/Users/ged/.gem/gem-public_cert.pem".freeze]
-  s.date = "2017-01-17"
+  s.date = "2017-01-19"
   s.description = "A(nother) HTML(5) generator for RDoc.\n\nIt uses {Twitter Bootstrap}[http://twitter.github.com/bootstrap/] for the\npretty, doesn't take up valuable horizontal real estate space with indexes\nand stuff, and has a QuickSilver-like incremental searching.".freeze
   s.email = ["ged@FaerieMUD.org".freeze]
   s.extra_rdoc_files = ["History.rdoc".freeze, "Manifest.txt".freeze, "README.rdoc".freeze]
-  s.files = [".autotest".freeze, ".gems".freeze, "ChangeLog".freeze, "History.rdoc".freeze, "Manifest.txt".freeze, "README.rdoc".freeze, "Rakefile".freeze, "data/rdoc-generator-fivefish/css/bootstrap-responsive.min.css".freeze, "data/rdoc-generator-fivefish/css/bootstrap.min.css".freeze, "data/rdoc-generator-fivefish/css/fivefish.min.css".freeze, "data/rdoc-generator-fivefish/fonts/IstokWeb-Bold.woff".freeze, "data/rdoc-generator-fivefish/fonts/IstokWeb-BoldItalic.woff".freeze, "data/rdoc-generator-fivefish/fonts/IstokWeb-Italic.woff".freeze, "data/rdoc-generator-fivefish/fonts/IstokWeb-Regular.woff".freeze, "data/rdoc-generator-fivefish/fonts/OFL.txt".freeze, "data/rdoc-generator-fivefish/img/glyphicons-halflings-white.png".freeze, "data/rdoc-generator-fivefish/img/glyphicons-halflings.png".freeze, "data/rdoc-generator-fivefish/js/bootstrap.min.js".freeze, "data/rdoc-generator-fivefish/js/fivefish.min.js".freeze, "data/rdoc-generator-fivefish/js/jquery-1.7.1.min.js".freeze, "data/rdoc-generator-fivefish/templates/class.tmpl".freeze, "data/rdoc-generator-fivefish/templates/file.tmpl".freeze, "data/rdoc-generator-fivefish/templates/index.tmpl".freeze, "data/rdoc-generator-fivefish/templates/layout.tmpl".freeze, "lib/fivefish.rb".freeze, "lib/rdoc/discover.rb".freeze, "lib/rdoc/generator/fivefish.rb".freeze, "spec/fivefish_spec.rb".freeze, "spec/helpers.rb".freeze, "spec/rdoc/generator/fivefish_spec.rb".freeze]
+  s.files = [".autotest".freeze, "ChangeLog".freeze, "History.rdoc".freeze, "Manifest.txt".freeze, "README.rdoc".freeze, "Rakefile".freeze, "data/rdoc-generator-fivefish/css/bootstrap-responsive.min.css".freeze, "data/rdoc-generator-fivefish/css/bootstrap.min.css".freeze, "data/rdoc-generator-fivefish/css/fivefish.min.css".freeze, "data/rdoc-generator-fivefish/fonts/IstokWeb-Bold.woff".freeze, "data/rdoc-generator-fivefish/fonts/IstokWeb-BoldItalic.woff".freeze, "data/rdoc-generator-fivefish/fonts/IstokWeb-Italic.woff".freeze, "data/rdoc-generator-fivefish/fonts/IstokWeb-Regular.woff".freeze, "data/rdoc-generator-fivefish/fonts/OFL.txt".freeze, "data/rdoc-generator-fivefish/img/glyphicons-halflings-white.png".freeze, "data/rdoc-generator-fivefish/img/glyphicons-halflings.png".freeze, "data/rdoc-generator-fivefish/js/bootstrap.min.js".freeze, "data/rdoc-generator-fivefish/js/fivefish.min.js".freeze, "data/rdoc-generator-fivefish/js/jquery-1.7.1.min.js".freeze, "data/rdoc-generator-fivefish/templates/class.tmpl".freeze, "data/rdoc-generator-fivefish/templates/file.tmpl".freeze, "data/rdoc-generator-fivefish/templates/index.tmpl".freeze, "data/rdoc-generator-fivefish/templates/layout.tmpl".freeze, "lib/fivefish.rb".freeze, "lib/rdoc/discover.rb".freeze, "lib/rdoc/generator/fivefish.rb".freeze, "spec/fivefish_spec.rb".freeze, "spec/helpers.rb".freeze, "spec/rdoc/generator/fivefish_spec.rb".freeze]
   s.homepage = "http://deveiate.org/fivefish.html".freeze
   s.licenses = ["BSD-3-Clause".freeze]
   s.rdoc_options = ["--main".freeze, "README.rdoc".freeze]
