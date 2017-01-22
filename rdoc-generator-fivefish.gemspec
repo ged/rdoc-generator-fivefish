@@ -1,15 +1,15 @@
 # -*- encoding: utf-8 -*-
-# stub: rdoc-generator-fivefish 0.3.0.pre20170119150555 ruby lib
+# stub: rdoc-generator-fivefish 0.4.0.pre20170122150921 ruby lib
 
 Gem::Specification.new do |s|
   s.name = "rdoc-generator-fivefish".freeze
-  s.version = "0.3.0.pre20170119150555"
+  s.version = "0.4.0.pre20170122150921"
 
   s.required_rubygems_version = Gem::Requirement.new("> 1.3.1".freeze) if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib".freeze]
   s.authors = ["Michael Granger".freeze]
   s.cert_chain = ["/Users/ged/.gem/gem-public_cert.pem".freeze]
-  s.date = "2017-01-19"
+  s.date = "2017-01-22"
   s.description = "A(nother) HTML(5) generator for RDoc.\n\nIt uses {Twitter Bootstrap}[http://twitter.github.com/bootstrap/] for the\npretty, doesn't take up valuable horizontal real estate space with indexes\nand stuff, and has a QuickSilver-like incremental searching.".freeze
   s.email = ["ged@FaerieMUD.org".freeze]
   s.extra_rdoc_files = ["History.rdoc".freeze, "Manifest.txt".freeze, "README.rdoc".freeze]

@@ -1,3 +1,8 @@
+== v0.3.0 [2017-01-22] Michael Granger <ged@FaerieMUD.org>
+
+- Bump dependency on RDoc to 5.0.
+
+
 == v0.2.1 [2017-01-17] Michael Granger <ged@FaerieMUD.org>
 
 - Oops, didn't mean to depend on RDoc 5 quite yet.
