@@ -15,7 +15,7 @@ module Fivefish
 	REVISION = %q$Revision$
 
 	# Fivefish project URL
-	PROJECT_URL = 'http://deveiate.org/fivefish.html'
+	PROJECT_URL = 'https://bitbucket.com/ged/fivefish'
 
 
 	### Get the library version. If +include_buildnum+ is true, the version string will

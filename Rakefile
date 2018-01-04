@@ -73,16 +73,16 @@ hoespec = Hoe.spec( PACKAGE_NAME )  do
 
 	self.developer 'Michael Granger', 'ged@FaerieMUD.org'
 
-	self.dependency 'inversion',    '~> 1.0'
+	self.dependency 'inversion',    '~> 1.1'
 	self.dependency 'loggability',  '~> 0.12'
 	self.dependency 'yajl-ruby',    '~> 1.3'
-	self.dependency 'rdoc',         '~> 5.0'
+	self.dependency 'rdoc',         '~> 6.0'
 
-	self.dependency 'hoe-deveiate', '~> 0.8', :developer
+	self.dependency 'hoe-deveiate', '~> 0.9', :developer
 	self.dependency 'uglifier',     '~> 1.3.0', :developer
 	self.dependency 'less',         '~> 2.2.0', :developer
 
-	self.require_ruby_version( '>=1.9.3' )
+	self.require_ruby_version( '>=2.3' )
 	self.hg_sign_tags = true if self.respond_to?( :hg_sign_tags= )
 	self.check_history_on_release = true if self.respond_to?( :check_history_on_release= )
 	self.rdoc_locations << "deveiate:/usr/local/www/public/code/#{remote_rdoc_dir}"

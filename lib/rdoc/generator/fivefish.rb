@@ -26,7 +26,7 @@ class RDoc::Generator::Fivefish
 			Pathname( ENV['FIVEFISH_DATADIR'] ).expand_path( Pathname.pwd )
 		elsif File.directory?( 'data/rdoc-generator-fivefish' )
 			Pathname( 'data/rdoc-generator-fivefish' ).expand_path( Pathname.pwd )
-		elsif path = Gem.datadir('rdoc-generator-fivefish')
+		elsif path = Gem.latest_spec_for( 'rdoc-generator-fivefish' )&.datadir
 			Pathname( path )
 		else
 			raise ScriptError, "can't find the data directory!"

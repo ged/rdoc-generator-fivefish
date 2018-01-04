@@ -1,2 +1,2 @@
 --- 
-exclude: !ruby/regexp /tmp$|\.(hg|hoerc|DS_Store|ruby-(version|gemset)|gems|tm_.*)|assets|tasks|Gemfile|\.(ttf|gemspec)$/
+exclude: !ruby/regexp /tmp$|\.(hg|hoerc|DS_Store|ruby-(version|gemset)|gems|tm_.*)|assets|tasks|Gemfile|\.(gemspec)$/

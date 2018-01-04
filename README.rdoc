@@ -22,13 +22,6 @@ and stuff, and has a QuickSilver-like incremental searching.
     rdoc --format=fivefish
 
 
-== Development
-
-You'll need a few tools to make a gem from source:
-
-* sfnt2woff[http://people.mozilla.org/~jkew/woff/]
-
-
 == Contributing
 
 You can check out the current development source

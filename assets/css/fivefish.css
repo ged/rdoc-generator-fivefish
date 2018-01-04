@@ -22,7 +22,7 @@ body {
 	font-weight: 400;
 	src: local('Istok Web Regular'),
 	     local('IstokWeb-Regular'),
-	     url('../fonts/IstokWeb-Regular.woff') format('woff');
+	     url('../fonts/IstokWeb-Regular.ttf') format('ttf');
 }
 @font-face {
 	font-family: 'Istok Web';
@@ -30,7 +30,7 @@ body {
 	font-weight: 400;
 	src: local('Istok Web Italic'),
 	     local('IstokWeb-Italic'),
-	     url('../fonts/IstokWeb-Italic.woff') format('woff');
+	     url('../fonts/IstokWeb-Italic.ttf') format('ttf');
 }
 @font-face {
 	font-family: 'Istok Web';
@@ -38,7 +38,7 @@ body {
 	font-weight: 700;
 	src: local('Istok Web Bold'),
 	     local('IstokWeb-Bold'),
-	     url('../fonts/IstokWeb-Bold.woff') format('woff');
+	     url('../fonts/IstokWeb-Bold.ttf') format('ttf');
 }
 
 ul.typeahead.dropdown-menu {

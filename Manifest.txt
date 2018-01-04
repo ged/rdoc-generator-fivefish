@@ -7,10 +7,10 @@ Rakefile
 data/rdoc-generator-fivefish/css/bootstrap-responsive.min.css
 data/rdoc-generator-fivefish/css/bootstrap.min.css
 data/rdoc-generator-fivefish/css/fivefish.min.css
-data/rdoc-generator-fivefish/fonts/IstokWeb-Bold.woff
-data/rdoc-generator-fivefish/fonts/IstokWeb-BoldItalic.woff
-data/rdoc-generator-fivefish/fonts/IstokWeb-Italic.woff
-data/rdoc-generator-fivefish/fonts/IstokWeb-Regular.woff
+data/rdoc-generator-fivefish/fonts/IstokWeb-Bold.ttf
+data/rdoc-generator-fivefish/fonts/IstokWeb-BoldItalic.ttf
+data/rdoc-generator-fivefish/fonts/IstokWeb-Italic.ttf
+data/rdoc-generator-fivefish/fonts/IstokWeb-Regular.ttf
 data/rdoc-generator-fivefish/fonts/OFL.txt
 data/rdoc-generator-fivefish/img/glyphicons-halflings-white.png
 data/rdoc-generator-fivefish/img/glyphicons-halflings.png
