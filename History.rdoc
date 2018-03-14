@@ -1,3 +1,11 @@
+==  v0.4.0 [2018-03-13] Michael Granger <ged@FaerieMUD.org>
+
+Enhancements:
+
+- Bump RDoc dependency to 6.0.
+- Use TTF fonts instead of converting them to WOFF.
+
+
 == v0.3.0 [2017-01-22] Michael Granger <ged@FaerieMUD.org>
 
 - Bump dependency on RDoc to 5.0.
